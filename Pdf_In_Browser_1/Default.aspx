@@ -2,9 +2,15 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="jumbotron" draggable="true">
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
-        <asp:Image ID="Image1" runat="server" Height="500px" Width="500px" />
+    <div ID="viewer" class="jumbotron" draggable="true">
+        <asp:Button ID="btnLoadPdf" runat="server" OnClick="btnLoadPdf_Click" Text="Load Pdf" />
+        <asp:FileUpload ID="FileUpload1" runat="server" />
+        <br />
+        <br />
+        <br />
+        <img runat="server" id="testImage" />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
 
     </asp:Content>

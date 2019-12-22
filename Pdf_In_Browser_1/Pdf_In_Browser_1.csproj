@@ -409,7 +409,6 @@
     <Content Include="x86\pdfium.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\CS 369 REGISTRATION.pdf" />
     <Content Include="Images\blank.pdf" />
     <Content Include="Images\pdf-test.pdf" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -492,6 +491,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="TestImages\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
