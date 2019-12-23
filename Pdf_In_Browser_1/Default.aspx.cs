@@ -33,7 +33,6 @@ namespace Pdf_In_Browser_1
                     HtmlImage img = new HtmlImage();
                     img.Src = "~/TestImages/image" + i + ".jpg";
                     customViewer1.Controls.Add(img);
-                    
                 }
             }
             catch (Exception ex)
