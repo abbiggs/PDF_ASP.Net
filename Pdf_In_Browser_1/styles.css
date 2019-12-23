@@ -1,0 +1,16 @@
+﻿body {
+}
+
+img {
+    width: 50%;
+    height: auto;
+    border: 2px solid;
+
+    margin-bottom: 5%;
+}
+
+.viewer{
+    width: 100%;
+    border: 2px solid;
+    
+}
