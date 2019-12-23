@@ -32,7 +32,8 @@ namespace Pdf_In_Browser_1
                     image.Save(Server.MapPath("~/TestImages/image" + i + ".jpg"));
                     HtmlImage img = new HtmlImage();
                     img.Src = "~/TestImages/image" + i + ".jpg";
-                    customViewer.Controls.Add(img);
+                    customViewer1.Controls.Add(img);
+                    
                 }
             }
             catch (Exception ex)
