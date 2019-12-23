@@ -491,6 +491,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Pdf%27s\" />
     <Folder Include="TestImages\" />
   </ItemGroup>
   <ItemGroup>

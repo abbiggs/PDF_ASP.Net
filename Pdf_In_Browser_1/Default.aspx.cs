@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using PDFiumSharp;
 using System.IO;
 using System.Drawing.Imaging;
@@ -24,11 +25,15 @@ namespace Pdf_In_Browser_1
         {
             try
             {
-                System.Drawing.Image image1 = pdfToImage(0);
-
-                image1.Save(Server.MapPath("~/TestImages/lol.jpg"));
-                
-                testImage.Src = "~/TestImages/lol.jpg";
+                System.Drawing.Image[] array = pdfToImageArray();
+                for (int i = 0; i < array.Length; i++) 
+                {
+                    System.Drawing.Image image = array[i];
+                    image.Save(Server.MapPath("~/TestImages/image" + i + ".jpg"));
+                    HtmlImage img = new HtmlImage();
+                    img.Src = "~/TestImages/image" + i + ".jpg";
+                    customViewer.Controls.Add(img);
+                }
             }
             catch (Exception ex)
             {
@@ -36,10 +41,8 @@ namespace Pdf_In_Browser_1
             }
         }
 
-        //This gets the filepath of the uploaded file, converts to image and returns the image
-        //Eventually this needs to take the uploaded file and convert it to a stream, before beginning conversions
-        //as to eliminate the need for filepaths
-        public System.Drawing.Image pdfToImage(int pageNum) 
+        //Loads a specific page, passed as a parameter, of the uploaded pdf.
+        public System.Drawing.Image pdfToImageByPage(int pageNum) 
         {
             PdfDocument document = null;
             PdfPage page = null;
@@ -48,12 +51,11 @@ namespace Pdf_In_Browser_1
             try
             {
                 string filename = Path.GetFileName(FileUpload1.FileName);
-                FileUpload1.SaveAs(Server.MapPath("~/") + filename);
+                FileUpload1.SaveAs(Server.MapPath("~/Pdf's/") + filename);
 
-
-                document = new PdfDocument(Server.MapPath("~/") + filename);
+                document = new PdfDocument(Server.MapPath("~/Pdf's/") + filename);
                 page = document.Pages[pageNum];
-
+                
                 bitmap = new Bitmap(2000, 2000);
                 PDFiumSharp.RenderingExtensionsGdiPlus.Render(page, bitmap);
                 
@@ -64,6 +66,34 @@ namespace Pdf_In_Browser_1
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
             return image;
+        }
+
+        //Converts all pages into images, and returns them as an array of images
+        public System.Drawing.Image[] pdfToImageArray() {
+            PdfDocument document = null;
+            PdfPageCollection pages = null;
+            System.Drawing.Image[] array = null;
+            try
+            {
+                string filename = Path.GetFileName(FileUpload1.FileName);
+                FileUpload1.SaveAs(Server.MapPath("~/Pdf's/") + filename);
+
+                document = new PdfDocument(Server.MapPath("~/Pdf's/") + filename);
+                pages = document.Pages;
+                array = new System.Drawing.Image[pages.Count];
+                for (int i = 0; i < pages.Count; i++) {
+                    PdfPage page = pages[i];
+                    Bitmap bitmap = new Bitmap(2000, 2000);
+                    PDFiumSharp.RenderingExtensionsGdiPlus.Render(page, bitmap);
+                    System.Drawing.Image image = bitmap;
+                    array[i] = image;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+            return array;
         }
     }
 }
