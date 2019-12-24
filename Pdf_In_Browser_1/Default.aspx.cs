@@ -23,16 +23,51 @@ namespace Pdf_In_Browser_1
 
         protected void btnLoadPdf_Click(object sender, EventArgs e)
         {
+            //displayFirstPage();
+            //if(pdfToImageByPage(1) != null) 
+            //{
+            //    displayAllPages();
+            //}
+            displayAllPages();
+        }
+
+        public void displayFirstPage() 
+        {
+            System.Drawing.Image firstPage = pdfToImageByPage(0);
+            firstPage.Save(Server.MapPath("~/TestImages/image0.jpg"));
+
+            HtmlImage img = new HtmlImage();
+            img.Src = Server.MapPath("~/TestImages/image0.jpg");
+
+            HtmlGenericControl div = new HtmlGenericControl("div");
+            div.Controls.Add(img);
+            customViewer1.Controls.Add(div);
+        }
+
+        public void displayAllPages() 
+        {
             try
             {
                 System.Drawing.Image[] array = pdfToImageArray();
-                for (int i = 0; i < array.Length; i++) 
+                for (int i = 0; i < array.Length; i++)
                 {
                     System.Drawing.Image image = array[i];
                     image.Save(Server.MapPath("~/TestImages/image" + i + ".jpg"));
                     HtmlImage img = new HtmlImage();
                     img.Src = "~/TestImages/image" + i + ".jpg";
-                    customViewer1.Controls.Add(img);
+                    //customViewer1.Controls.Add(img);
+
+                    HtmlGenericControl div = new HtmlGenericControl("div");
+                    div.Controls.Add(img);
+                    if (i % 2 == 0)
+                    {
+                        customViewer1.Controls.Add(div);
+                    }
+                    else
+                    {
+                        customViewer2.Controls.Add(div);
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -83,7 +118,7 @@ namespace Pdf_In_Browser_1
                 array = new System.Drawing.Image[pages.Count];
                 for (int i = 0; i < pages.Count; i++) {
                     PdfPage page = pages[i];
-                    Bitmap bitmap = new Bitmap(2000, 2000);
+                    Bitmap bitmap = new Bitmap(1920, 2200);
                     PDFiumSharp.RenderingExtensionsGdiPlus.Render(page, bitmap);
                     System.Drawing.Image image = bitmap;
                     array[i] = image;

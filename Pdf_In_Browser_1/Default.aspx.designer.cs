@@ -33,6 +33,15 @@ namespace Pdf_In_Browser_1
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
 
         /// <summary>
+        /// customContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl customContainer;
+
+        /// <summary>
         /// customViewer1 control.
         /// </summary>
         /// <remarks>
@@ -40,5 +49,14 @@ namespace Pdf_In_Browser_1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl customViewer1;
+
+        /// <summary>
+        /// customViewer2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl customViewer2;
     }
 }
