@@ -27,9 +27,15 @@
         function jumpToPage(event) {
             //Executes on enter key press event
             if (event.which == 13 || event.keyCode == 13) {
-                var pageNum = document.getElementById("manualPageInput").value;
-                document.getElementById("MainContent_img" + pageNum).scrollIntoView();
-                return false;
+                try {
+                    var pageNum = document.getElementById("manualPageInput").value;
+                    var actualPageNum = pageNum - 1;
+                    document.getElementById("MainContent_img" + actualPageNum).scrollIntoView();
+                    return false;
+                } catch (error) {
+                    alert("Page Number Out Of Bounds.");
+                    return false;
+                }
             }
         }
 
