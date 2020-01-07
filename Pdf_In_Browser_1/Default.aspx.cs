@@ -5,6 +5,7 @@ using PDFiumSharp;
 using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
+using Pdf_In_Browser_1.TextExtraction;
 
 namespace Pdf_In_Browser_1
 {
@@ -133,6 +134,10 @@ namespace Pdf_In_Browser_1
             //    displayAllPages();
             //}
             displayAllPages();
+
+            PdfTextExtractor textExtractor = new PdfTextExtractor();
+            textExtractor.getPdfText();
+            
         }
     }
 }
