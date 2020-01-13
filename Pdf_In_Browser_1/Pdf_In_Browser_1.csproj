@@ -496,6 +496,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Pdf%27s\" />
     <Folder Include="TestImages\" />
+    <Folder Include="UnitTests\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
