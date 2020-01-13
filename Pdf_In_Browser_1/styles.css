@@ -16,6 +16,7 @@ img {
     margin: 8px;
     font-size: 20px;
     height: 10%;
+    outline: 0;
     border-radius: 80px 80px 80px 80px;
     transition: background-color 0.2s;
 }
