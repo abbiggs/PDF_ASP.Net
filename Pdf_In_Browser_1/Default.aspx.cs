@@ -7,10 +7,8 @@ using System.Drawing;
 using System.Collections.Generic;
 using Pdf_In_Browser_1.TextExtraction;
 
-namespace Pdf_In_Browser_1
-{
-    public partial class _Default : Page
-    {
+namespace Pdf_In_Browser_1 {
+    public partial class _Default : Page {
 
         public List<HtmlImage> currentImages = new List<HtmlImage>();
 
