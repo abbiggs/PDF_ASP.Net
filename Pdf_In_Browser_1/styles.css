@@ -52,13 +52,13 @@ img {
     position: relative;
     float: left;
     width: 50%;
-    margin-top: 5%;
+    margin-top: 1%;
     margin-left: 0.5%;
 }
 
 .rightImageContainer {
     position: relative;
     width: 50%;
-    margin-top: 5%;
+    margin-top: 1%;
     margin-right: 0.5%;
 }
