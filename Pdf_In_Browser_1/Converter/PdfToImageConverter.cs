@@ -11,10 +11,10 @@ namespace Pdf_In_Browser_1 {
     public class PdfToImageConverter {
 
         //Loads a specific page
-        public System.Drawing.Image pdfToImageByPage(int pageNum, PdfDocument document) {
+        public Image pdfToImageByPage(int pageNum, PdfDocument document) {
 
-            System.Drawing.Bitmap bitmap = null;
-            System.Drawing.Image image = null;
+            Bitmap bitmap = null;
+            Image image = null;
             PdfPage page = null;
 
             try {
@@ -36,9 +36,9 @@ namespace Pdf_In_Browser_1 {
 
 
         //Loads a selection of pages
-        public System.Drawing.Image[] pdfToImageArray(int startingPage, int endingPage, PdfDocument document) {
+        public Image[] pdfToImageArray(int startingPage, int endingPage, PdfDocument document) {
 
-            System.Drawing.Image[] array = null;
+            Image[] array = null;
 
             for(int i = startingPage; i < endingPage; i++) {
 

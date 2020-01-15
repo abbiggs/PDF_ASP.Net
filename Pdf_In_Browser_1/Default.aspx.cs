@@ -15,7 +15,7 @@ namespace Pdf_In_Browser_1 {
         public void DisplayPage(int pageNum) {
 
             PdfToImageConverter converter = new PdfToImageConverter();
-            System.Drawing.Image pageImg = null;
+            Image pageImg = null;
 
             string fileName = GetFileNameFromUI();
             string imgPath = GetImgFilePath(fileName, pageNum);
