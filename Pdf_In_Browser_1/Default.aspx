@@ -13,11 +13,11 @@
     </div>
 
     <div class="mainContainer" id="customContainer" runat="server">
-        <div class="leftImageContainer" ID="customViewer1" runat="server">
+        <div class="leftImageContainer" ID="customViewerL" runat="server">
         <%-- Dynamically generated images (even numbered pages) are placed here. --%>
         </div>
 
-        <div class="rightImageContainer" ID="customViewer2" runat="server">
+        <div class="rightImageContainer" ID="customViewerR" runat="server">
         <%-- Dynamically generated images (odd numbered pages) are placed here. --%>
         </div>
     </div>
