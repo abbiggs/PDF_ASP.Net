@@ -25,7 +25,7 @@ namespace Pdf_In_Browser_1 {
             pageImg = converter.pdfToImageByPage(pageNum, document);
             pageImg.Save(Server.MapPath(imgPath));
 
-            AddImgToHtml(pageImg, pageNum, imgPath);
+            AddImgToHtml(pageNum, imgPath);
         }
 
         public void DisplayAllPages() {
@@ -77,7 +77,7 @@ namespace Pdf_In_Browser_1 {
             return document;
         }
 
-        public void AddImgToHtml(System.Drawing.Image pageImg, int pageNum, string path) {
+        public void AddImgToHtml(int pageNum, string path) {
 
             HtmlGenericControl div = new HtmlGenericControl("div");
             HtmlImage img = new HtmlImage();
