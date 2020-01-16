@@ -21,8 +21,11 @@ namespace Pdf_In_Browser_1 {
 
                 page = document.Pages[pageNum];
 
+                int width = Convert.ToInt32(page.Width);
+                int height = Convert.ToInt32(page.Height);
+
                 //Use (int)page.Width and (int)page.Height in future
-                bitmap = new Bitmap(1920, 2200);
+                bitmap = new Bitmap(width, height);
                 RenderingExtensionsGdiPlus.Render(page, bitmap);
                 image = bitmap;
 
@@ -30,7 +33,7 @@ namespace Pdf_In_Browser_1 {
 
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
-
+            //ilj
             return image;
         }
 
