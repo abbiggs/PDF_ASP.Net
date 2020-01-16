@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: #3c3c4a;
+    background-color: dimgrey;
 }
 
 img {
@@ -9,24 +9,17 @@ img {
 }
 
 .actionButton {
-    background-color: #686876;
+    background-color: #444488;
     color: #eeeeee;
     border: none;
     padding: 8px;
     margin: 8px;
     font-size: 20px;
     height: 10%;
-    outline: 0;
-    border-radius: 80px 80px 80px 80px;
-    transition: background-color 0.2s;
-}
-
-.actionButton:hover {
-    background-color: #35ccb8;
 }
 
 .actionButtonsDiv {
-    background-color: #52525f;
+    background-color: grey;
 }
 
 .pageCount{
