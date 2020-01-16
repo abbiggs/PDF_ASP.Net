@@ -7,143 +7,129 @@ using System.Drawing;
 using System.Collections.Generic;
 using Pdf_In_Browser_1.TextExtraction;
 
-namespace Pdf_In_Browser_1 {
-    public partial class _Default : Page {
+namespace Pdf_In_Browser_1
+{
+    public partial class _Default : Page
+    {
 
         public List<HtmlImage> currentImages = new List<HtmlImage>();
-        
 
-        public void displayFirstPage(System.Drawing.Image firstPage) {
+        public void DisplayPage(int pageNum)
+        {
 
-            //System.Drawing.Image firstPage = pdfToImageByPage(0);
-            firstPage.Save(Server.MapPath("~/TestImages/firstpage.jpg"));
+            PdfToImageConverter converter = new PdfToImageConverter();
+            Image pageImg = null;
 
-            HtmlImage img = new HtmlImage();
+            string fileName = GetFileNameFromUI();
+            string imgPath = GetImgFilePath(fileName, pageNum);
 
-            img.Src = "~/TestImages/firstpage.jpg";
+            PdfDocument document = GetDocument(fileName);
+
+            pageImg = converter.pdfToImageByPage(pageNum, document);
+            pageImg.Save(Server.MapPath(imgPath));
+
+            AddImgToHtml(pageNum, imgPath);
+        }
+
+        public void DisplayAllPages()
+        {
+
+            PdfPageCollection pages = null;
+            string fileName = GetFileNameFromUI();
+
+            PdfDocument document = GetDocument(fileName);
+            pages = document.Pages;
+
+            UpdatePageTotalUI(pages.Count, fileName);
+
+            for (int pageNum = 0; pageNum < pages.Count; pageNum++)
+            {
+
+                DisplayPage(pageNum);
+            }
+        }
+
+        public string GetFileNameFromUI()
+        {
+
+            return Path.GetFileName(FileUpload1.FileName);
+        }
+
+        public string GetPdfFilePath(string fileName)
+        {
+
+            return Server.MapPath("~/Pdf's/") + fileName;
+        }
+
+        public string GetImgFilePath(string fileName, int i)
+        {
+
+            return "~/TestImages/" + fileName + i.ToString() + ".png";
+        }
+
+        public PdfDocument GetDocument(string fileName)
+        {
+
+            string documentPath = GetPdfFilePath(fileName);
+            PdfDocument document = null;
+
+            try
+            {
+
+                FileUpload1.SaveAs(documentPath);
+                document = new PdfDocument(documentPath);
+
+            }
+            catch (Exception ex)
+            {
+
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+            //kk
+            return document;
+        }
+
+        public void AddImgToHtml(int pageNum, string path)
+        {
 
             HtmlGenericControl div = new HtmlGenericControl("div");
+            HtmlImage img = new HtmlImage();
 
+            img.Src = path;
+            img.ID = "img" + pageNum;
             div.Controls.Add(img);
-            customViewer1.Controls.Add(div);
-        }
+            div.ID = "div" + pageNum;
 
-        public void displayAllPages(System.Drawing.Image[] array)  {
+            if (pageNum % 2 == 0)
+            {
 
-            try {
-                //System.Drawing.Image[] array = pdfToImageArray();
+                customViewerL.Controls.Add(div);
 
-                //Need to make sure first page is included
-                for (int i = 0; i < array.Length; i++) {
+            }
+            else
+            {
 
-                    System.Drawing.Image image = array[i];
-                    image.Save(Server.MapPath("~/TestImages/image" + i + ".jpg"));
-
-                    HtmlImage img = new HtmlImage();
-
-                    img.Src = "~/TestImages/image" + i + ".jpg";
-                    img.ID = "img" + i;
-                    currentImages.Add(img);
-
-                    HtmlGenericControl div = new HtmlGenericControl("div");
-
-                    div.ID = "div" + i;
-                    div.Controls.Add(img);
-
-                    if (i % 2 == 0) {
-
-                        customViewer1.Controls.Add(div);
-
-                    } else {
-
-                        customViewer2.Controls.Add(div);
-                    }
-                }
-
-            } catch (Exception ex) {
-
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                customViewerR.Controls.Add(div);
             }
         }
 
-        //Loads a specific page, passed as a parameter, of the uploaded pdf.
-        public System.Drawing.Image pdfToImageByPage(int pageNum) {
+        public void UpdatePageTotalUI(int total, string fileName)
+        {
 
-            PdfDocument document = null;
-            PdfPage page = null;
-            System.Drawing.Bitmap bitmap = null;
-            System.Drawing.Image image = null;
-
-            try {
-
-                string filename = Path.GetFileName(FileUpload1.FileName);
-                FileUpload1.SaveAs(Server.MapPath("~/Pdf's/") + filename);
-
-                document = new PdfDocument(Server.MapPath("~/Pdf's/") + filename);
-                page = document.Pages[pageNum];
-                
-                bitmap = new Bitmap(1920, 2200);
-                PDFiumSharp.RenderingExtensionsGdiPlus.Render(page, bitmap);
-                
-                image = bitmap;
-
-            } catch (Exception ex) {
-
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-            }
-
-            return image;
+            pageCount.Text = "/" + total.ToString() + "   " + fileName;
         }
 
-        //Converts all pages into images, and returns them as an array of images
-        public System.Drawing.Image[] pdfToImageArray() {
+        protected void btnLoadPdf_Click(object sender, EventArgs e)
+        {
 
-            PdfDocument document = null;
-            PdfPageCollection pages = null;
-            System.Drawing.Image[] array = null;
+            if (FileUpload1.HasFile)
+            {
 
-            try {
+                DisplayAllPages();
 
-                string filename = Path.GetFileName(FileUpload1.FileName);
-                FileUpload1.SaveAs(Server.MapPath("~/Pdf's/") + filename);
-
-                document = new PdfDocument(Server.MapPath("~/Pdf's/") + filename);
-                pages = document.Pages;
-
-                pageCount.Text = "/" + pages.Count.ToString() + "   " + filename;
-
-                array = new System.Drawing.Image[pages.Count];
-
-                for (int i = 0; i < pages.Count; i++) {
-
-                    PdfPage page = pages[i];
-                    Bitmap bitmap = new Bitmap(1920, 2200);
-
-                    PDFiumSharp.RenderingExtensionsGdiPlus.Render(page, bitmap);
-                    System.Drawing.Image image = bitmap;
-
-                    array[i] = image;
-                }
-
-            } catch (Exception ex) {
-
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                PdfTextExtractor textExtractor = new PdfTextExtractor();
+                textExtractor.getPdfText();
             }
-
-            return array;
-        }
-
-        protected void btnLoadPdf_Click(object sender, EventArgs e) {
-
-            displayAllPages();
-
-            PdfTextExtractor textExtractor = new PdfTextExtractor();
-            textExtractor.getPdfText();
-            
-            //PdfRenderer.PdfRenderer renderer = new PdfRenderer.PdfRenderer();
-            //System.Drawing.Image image = renderer.pdfToImageByPage(FileUpload1.PostedFile, 1);
-            //System.Drawing.Image[] images = renderer.pdfToImageArray(FileUpload1.PostedFile);
-            //displayFirstPage(image);
         }
     }
 }
