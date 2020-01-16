@@ -6,7 +6,6 @@ using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
 using Pdf_In_Browser_1.TextExtraction;
-using Pdf_In_Browser_1.PdfRenderer;
 
 namespace Pdf_In_Browser_1 {
     public partial class _Default : Page {
