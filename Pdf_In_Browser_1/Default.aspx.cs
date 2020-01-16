@@ -7,12 +7,15 @@ using System.Drawing;
 using System.Collections.Generic;
 using Pdf_In_Browser_1.TextExtraction;
 
-namespace Pdf_In_Browser_1 {
-    public partial class _Default : Page {
+namespace Pdf_In_Browser_1
+{
+    public partial class _Default : Page
+    {
 
         public List<HtmlImage> currentImages = new List<HtmlImage>();
 
-        public void DisplayPage(int pageNum) {
+        public void DisplayPage(int pageNum)
+        {
 
             PdfToImageConverter converter = new PdfToImageConverter();
             Image pageImg = null;
@@ -28,7 +31,8 @@ namespace Pdf_In_Browser_1 {
             AddImgToHtml(pageNum, imgPath);
         }
 
-        public void DisplayAllPages() {
+        public void DisplayAllPages()
+        {
 
             PdfPageCollection pages = null;
             string fileName = GetFileNameFromUI();
@@ -38,46 +42,55 @@ namespace Pdf_In_Browser_1 {
 
             UpdatePageTotalUI(pages.Count, fileName);
 
-            for (int pageNum = 0; pageNum < pages.Count; pageNum++) {
+            for (int pageNum = 0; pageNum < pages.Count; pageNum++)
+            {
 
                 DisplayPage(pageNum);
             }
         }
 
-        public string GetFileNameFromUI() {
+        public string GetFileNameFromUI()
+        {
 
             return Path.GetFileName(FileUpload1.FileName);
         }
 
-        public string GetPdfFilePath(string fileName) {
+        public string GetPdfFilePath(string fileName)
+        {
 
             return Server.MapPath("~/Pdf's/") + fileName;
         }
 
-        public string GetImgFilePath(string fileName, int i) {
+        public string GetImgFilePath(string fileName, int i)
+        {
 
-            return "~/TestImages/" + fileName + i.ToString() + ".jpg";
+            return "~/TestImages/" + fileName + i.ToString() + ".png";
         }
 
-        public PdfDocument GetDocument(string fileName) {
+        public PdfDocument GetDocument(string fileName)
+        {
 
             string documentPath = GetPdfFilePath(fileName);
             PdfDocument document = null;
 
-            try {
+            try
+            {
 
                 FileUpload1.SaveAs(documentPath);
                 document = new PdfDocument(documentPath);
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
 
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
-
+            //kk
             return document;
         }
 
-        public void AddImgToHtml(int pageNum, string path) {
+        public void AddImgToHtml(int pageNum, string path)
+        {
 
             HtmlGenericControl div = new HtmlGenericControl("div");
             HtmlImage img = new HtmlImage();
@@ -87,24 +100,30 @@ namespace Pdf_In_Browser_1 {
             div.Controls.Add(img);
             div.ID = "div" + pageNum;
 
-            if (pageNum % 2 == 0) {
+            if (pageNum % 2 == 0)
+            {
 
                 customViewerL.Controls.Add(div);
 
-            } else {
+            }
+            else
+            {
 
                 customViewerR.Controls.Add(div);
             }
         }
 
-        public void UpdatePageTotalUI(int total, string fileName) {
+        public void UpdatePageTotalUI(int total, string fileName)
+        {
 
             pageCount.Text = "/" + total.ToString() + "   " + fileName;
         }
 
-        protected void btnLoadPdf_Click(object sender, EventArgs e) {
+        protected void btnLoadPdf_Click(object sender, EventArgs e)
+        {
 
-            if (FileUpload1.HasFile) {
+            if (FileUpload1.HasFile)
+            {
 
                 DisplayAllPages();
 
