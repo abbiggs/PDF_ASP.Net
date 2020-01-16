@@ -56,7 +56,7 @@ namespace Pdf_In_Browser_1 {
 
         public string GetImgFilePath(string fileName, int i) {
 
-            return "~/TestImages/" + fileName + i.ToString() + ".jpg";
+            return "~/TestImages/" + fileName + i.ToString() + ".png";
         }
 
         public PdfDocument GetDocument(string fileName) {
@@ -73,7 +73,7 @@ namespace Pdf_In_Browser_1 {
 
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
-
+            //kk
             return document;
         }
 
