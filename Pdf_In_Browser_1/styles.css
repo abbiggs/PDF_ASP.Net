@@ -1,5 +1,5 @@
-﻿body {
-    background-color: dimgrey;
+﻿﻿body, html {
+    background-color: #3c3c4a;
 }
 
 img {
@@ -9,20 +9,27 @@ img {
 }
 
 .actionButton {
-    background-color: #444488;
+    background-color: #686876;
     color: #eeeeee;
     border: none;
     padding: 8px;
     margin: 8px;
     font-size: 20px;
     height: 10%;
+    outline: 0;
+    border-radius: 80px 80px 80px 80px;
+    transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+    background-color: #35ccb8;
 }
 
 .actionButtonsDiv {
-    background-color: grey;
+    background-color: #52525f;
 }
 
-.pageCount{
+.pageCount {
     color: white;
 }
 
@@ -35,13 +42,13 @@ img {
     width: 2%;
 }
 
-.mainContainer{
-    position:absolute;
+.mainContainer {
+    position: absolute;
     width: 100%;
     display: flex;
 }
 
-.leftImageContainer{
+.leftImageContainer {
     position: relative;
     float: left;
     width: 50%;

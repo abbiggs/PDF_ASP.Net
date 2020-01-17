@@ -20,3 +20,12 @@
         }
     }
 }
+
+function pageUp() {
+    return false;
+}
+
+function pageDown() {
+    //document.getElementById("customViewer1").child
+    return false;
+}
