@@ -13,11 +13,6 @@ namespace PdfiumBackTest {
         [TestMethod]
         public void TestFindingPdf() {
 
-            //Find pdf doc
-            //Set to pdfdocument variable
-            //create instance of PdfToImageConverter
-            //Convert pdfdocument to image
-            //assert that returned object is an image datatype
             string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             PdfDocument document;
 
