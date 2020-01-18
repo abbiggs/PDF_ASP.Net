@@ -35,7 +35,7 @@ namespace PdfiumBackTest {
 
             result = converter.pdfToImageByPage(0, document);
 
-            Assert.IsNotNull(result);
+            Assert.IsNull(result);
         }
     }
 }
