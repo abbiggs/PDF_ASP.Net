@@ -33,12 +33,10 @@ namespace Pdf_In_Browser_1
 
         public void DisplayAllPages()
         {
-
-            PdfPageCollection pages = null;
             string fileName = GetFileNameFromUI();
 
             PdfDocument document = GetDocument(fileName);
-            pages = document.Pages;
+            PdfPageCollection pages = document.Pages;
 
             UpdatePageTotalUI(pages.Count, fileName);
 
