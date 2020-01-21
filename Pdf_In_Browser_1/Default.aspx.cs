@@ -28,7 +28,7 @@ namespace Pdf_In_Browser_1
             pageImg = converter.pdfToImageByPage(pageNum, document);
             pageImg.Save(Server.MapPath(imgPath));
 
-            AddImgToHtml(pageNum, imgPath);
+            AddImgToHtml(pageNum, imgPath, document);
         }
 
         public void DisplayAllPages()
@@ -87,15 +87,20 @@ namespace Pdf_In_Browser_1
             return document;
         }
 
-        public void AddImgToHtml(int pageNum, string path)
+        public void AddImgToHtml(int pageNum, string path, PdfDocument document)
         {
-
+            PdfTextExtractor textExtractor = new PdfTextExtractor();
             HtmlGenericControl div = new HtmlGenericControl("div");
             HtmlImage img = new HtmlImage();
 
+            HtmlGenericControl textDiv = textExtractor.getPageText(pageNum, document);
+
             img.Src = path;
             img.ID = "img" + pageNum;
+            img.Attributes["style"] = "z-index: 1;";
+            div.Attributes["style"] = "position: relative;";
             div.Controls.Add(img);
+            div.Controls.Add(textDiv);
             div.ID = "div" + pageNum;
 
             if (pageNum % 2 == 0)
@@ -123,7 +128,8 @@ namespace Pdf_In_Browser_1
             if (FileUpload1.HasFile)
             {
 
-                DisplayAllPages();
+                //DisplayAllPages();
+                DisplayPage(0);
 
                 PdfTextExtractor textExtractor = new PdfTextExtractor();
                 textExtractor.getPdfText();
