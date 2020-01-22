@@ -40,15 +40,14 @@ namespace Pdf_In_Browser_1.TextExtraction
 
         public HtmlGenericControl getPageText(int pageNum, PdfDocument document)
         {
-            //Get text data
-            //Create html obj from data
-            //Add html obj to div
-            //return div object
             PdfPage page = document.Pages[pageNum];
             HtmlGenericControl div = new HtmlGenericControl("div");
 
             var pageText = PDFium.FPDFText_LoadPage(page.Handle);
             var rectNum = PDFium.FPDFText_CountRects(pageText, 0, 1000000);
+
+            double pageHeight = page.Height;
+            double pageWidth = page.Width;
 
             div.ID = "pageText" + pageNum;
 
@@ -59,13 +58,13 @@ namespace Pdf_In_Browser_1.TextExtraction
                 PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
                 var text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
 
+                double leftPos = (left / pageWidth) * 100;
+                double rightPos = (right / pageWidth) * 100;
+                double botPos = (bottom / pageHeight) * 100;
+                double fontSize = (rightPos - leftPos) / text.Length;
+
                 p.InnerHtml = text;
-                //p.Attributes["display"] = "inline";
-                //p.Attributes["position"] = "absolute";
-                //p.Attributes["left"] = Convert.ToInt32(left).ToString() + "px";
-                //p.Attributes["top"] = Convert.ToInt32(top).ToString() + "px";
-                //p.Attributes["z-index"] = "2";
-                p.Attributes["style"] = "display: inline; position: absolute; z-index: 2; left: " + Convert.ToInt32(left).ToString() + "px; bottom: " + Convert.ToInt32(top).ToString() + "px;";
+                p.Attributes["style"] = "display: inline; position: absolute; z-index: 2; color: red; left: " + leftPos.ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
 
                 div.Controls.Add(p);
             }

@@ -97,10 +97,9 @@ namespace Pdf_In_Browser_1
 
             img.Src = path;
             img.ID = "img" + pageNum;
-            img.Attributes["style"] = "z-index: 1;";
-            div.Attributes["style"] = "position: relative;";
             div.Controls.Add(img);
             div.Controls.Add(textDiv);
+            div.Attributes["style"] = "position: relative;";
             div.ID = "div" + pageNum;
 
             if (pageNum % 2 == 0)
@@ -128,8 +127,7 @@ namespace Pdf_In_Browser_1
             if (FileUpload1.HasFile)
             {
 
-                //DisplayAllPages();
-                DisplayPage(0);
+                DisplayAllPages();
 
                 PdfTextExtractor textExtractor = new PdfTextExtractor();
                 textExtractor.getPdfText();
