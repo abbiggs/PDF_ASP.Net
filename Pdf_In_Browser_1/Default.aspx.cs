@@ -128,9 +128,6 @@ namespace Pdf_In_Browser_1
             {
 
                 DisplayAllPages();
-
-                PdfTextExtractor textExtractor = new PdfTextExtractor();
-                textExtractor.getPdfText();
             }
         }
     }

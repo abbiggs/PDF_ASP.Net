@@ -12,31 +12,6 @@ namespace Pdf_In_Browser_1.TextExtraction
 {
     public class PdfTextExtractor
     {
-        //Prints the text from the pdfdocument to the console.
-        public void getPdfText()
-        {
-            try
-            {
-                PdfDocument document = new PdfDocument("C:/Users/ab716/Desktop/PDF_InBrowserRendering/PDF's/CS 369 REGISTRATION.pdf");
-                PdfPage page = document.Pages[0];
-
-                var textPage = PDFium.FPDFText_LoadPage(page.Handle);
-                var rectCount = PDFium.FPDFText_CountRects(textPage, 0, 1000000);
-                
-                for (int i = 0; i < rectCount; i++)
-                {
-                    PDFium.FPDFText_GetRect(textPage, i, out var l, out var t, out var r, out var b);
-                    var text = PDFium.FPDFText_GetBoundedText(textPage, l, t, r, b);
-                    
-                    //System.Diagnostics.Debug.WriteLine(text.ToString());
-                    System.Diagnostics.Debug.WriteLine($"{(int)l}, {(int)t}, {(int)r}, {(int)b} - {text}");
-                }
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
-        }
 
         public HtmlGenericControl getPageText(int pageNum, PdfDocument document)
         {
@@ -64,7 +39,7 @@ namespace Pdf_In_Browser_1.TextExtraction
                 double fontSize = (rightPos - leftPos) / text.Length;
 
                 p.InnerHtml = text;
-                p.Attributes["style"] = "display: inline; position: absolute; z-index: 2; color: red; left: " + leftPos.ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
+                p.Attributes["style"] = "display: inline; position: absolute; z-index: 2; color: red; opacity: 0.5; left: " + leftPos.ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
 
                 div.Controls.Add(p);
             }
