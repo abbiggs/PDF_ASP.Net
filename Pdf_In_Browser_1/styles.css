@@ -39,6 +39,8 @@ div, p {
 
 .actionButtonsDiv {
     background-color: #52525f;
+    position: sticky;
+    top: 0;
 }
 
 .pageCount {
