@@ -100,7 +100,7 @@ namespace Pdf_In_Browser_1
             div.Controls.Add(img);
             div.Controls.Add(textDiv);
             div.ID = "div" + pageNum;
-            div.Attributes["style"] = "position: relative; background-color: #2c2c3a;";
+            div.Attributes["style"] = "position: relative;";
 
             if (pageNum % 2 == 0)
             {

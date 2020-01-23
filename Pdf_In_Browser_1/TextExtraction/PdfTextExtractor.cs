@@ -35,8 +35,10 @@ namespace Pdf_In_Browser_1.TextExtraction
                 
                 double leftPos = (left / pageWidth) * 100; //0.9499 due to the difference in the div and img width
                 double rightPos = (right / pageWidth) * 100;
-                double botPos = (bottom / pageHeight) * 100; //1.0052 due to the difference in the div and img height
-                double fontSize = (rightPos - leftPos) / text.Length;
+                double botPos = (bottom / pageHeight) * 100; //1.0052 or 0.9948 due to the difference in the div and img height
+                double topPos = (top / pageHeight) * 100;
+                //double fontSize = (rightPos - leftPos) / (text.Length);
+                double fontSize = ((rightPos - leftPos) + (topPos - botPos)) / (text.Length); //One of these two lines will work, just need to figureout once we get the fontStyles
 
                 //The reason the text is offset is because the text's position is relative to the 'positioned' div that contains it and the img
                 //That div's position is leaking outside of the bounds of the image, so the text isn't lining up perfectly
