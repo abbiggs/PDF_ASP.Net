@@ -21,6 +21,35 @@
     }
 }
 
+//Event executes when the window is scrolled to check if the page is scrolled all the way down
+window.addEventListener('scroll', function (e) {
+    var a = $("#MainContent_customContainer").offset().top;
+    var b = $("#MainContent_customContainer").height();
+    var c = $(window).height();
+    var d = $(window).scrollTop();
+    if ((c + d) > (a + b)) {
+        
+        alert("bottom");
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "Default.aspx/testMethod",
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                cache: false
+            })
+            return false;
+        });
+    }
+});
+
+function callServerMethod() {
+    alert("<%= GetValue() %>");
+    return false;
+}
+
 function pageUp() {
     return false;
 }
