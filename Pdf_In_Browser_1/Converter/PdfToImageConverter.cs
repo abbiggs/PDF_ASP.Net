@@ -36,7 +36,6 @@ namespace Pdf_In_Browser_1 {
             return image;
         }
 
-
         //Loads a selection of pages
         public Image[] pdfToImageArray(int startingPage, int endingPage, PdfDocument document) {
 
@@ -49,5 +48,19 @@ namespace Pdf_In_Browser_1 {
 
             return array;
         }
+
+        public Image[] getAllPages(PdfDocument document)
+        {
+
+            Image[] array = null;
+
+            for (int i = 0; i < document.Pages.Count; i++)
+            {
+                array[i] = pdfToImageByPage(i, document);
+            }
+
+            return array;
+        }
+
     }
 }

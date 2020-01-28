@@ -30,25 +30,26 @@ window.addEventListener('scroll', function (e) {
     if ((c + d) > (a + b)) {
         
         alert("bottom");
-        $(function () {
-            $.ajax({
-                type: "POST",
-                url: "Default.aspx/testMethod",
-                data: "{}",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: true,
-                cache: false
-            })
-            return false;
-        });
+        //var filename = document.getElementById("MainContent_FileUpload1").value;
+        //filename = filename.split("\\").pop()
+        $.ajax({
+            url: "/Default.aspx?m=loadNext"
+            });
+
+        //$(function () {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "Default.aspx/testMethod",
+        //        data: "{}",
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        async: true,
+        //        cache: false
+        //    })
+        //    return false;
+        //});
     }
 });
-
-function callServerMethod() {
-    alert("<%= GetValue() %>");
-    return false;
-}
 
 function pageUp() {
     return false;
