@@ -73,7 +73,7 @@ namespace Pdf_In_Browser_1.TextExtraction
             string baseStyle = "display: inline; position: absolute; z-index: 2; color: red; opacity: 0.5;";
 
             p.InnerHtml = text;
-            p.Attributes["style"] = baseStyle + " left: " + (leftPos * 0.9949).ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
+            p.Attributes["style"] = baseStyle + " left: " + (leftPos).ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
 
             return p;
         }
