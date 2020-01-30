@@ -4,15 +4,28 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Pdf_In_Browser_1.BackendClasses;
 
 namespace Pdf_In_Browser_1
 {
     public class PdfPageAPIController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+
+        PdfPageImage[] pageImages = new PdfPageImage[]
         {
-            return new string[] { "value1", "value2" };
+            new PdfPageImage {name = "page1"},
+            new PdfPageImage {name = "page2"},
+            new PdfPageImage {name = "page3"},
+        };
+        
+        
+
+
+
+        // GET api/<controller>
+        public IEnumerable<PdfPageImage> Get()
+        {
+            return pageImages;
         }
 
         // GET api/<controller>/5
