@@ -19,10 +19,8 @@ namespace Pdf_In_Browser_1.TextExtraction
             HtmlGenericControl div = new HtmlGenericControl("div");
 
             var pageText = PDFium.FPDFText_LoadPage(page.Handle);
-            var rectNum = PDFium.FPDFText_CountRects(pageText, 0, 1000000);
-
-            double pageHeight = page.Height;
-            double pageWidth = page.Width;
+            var charNum = PDFium.FPDFText_CountChars(pageText);
+            var rectNum = PDFium.FPDFText_CountRects(pageText, 0, charNum);
 
             div.ID = "pageText" + pageNum;
 
@@ -30,32 +28,54 @@ namespace Pdf_In_Browser_1.TextExtraction
             {
                 HtmlGenericControl p = new HtmlGenericControl("p");
 
-                PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
-                var text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
-                
-                double leftPos = (left / pageWidth) * 100; //0.9499 due to the difference in the div and img width
-                double rightPos = (right / pageWidth) * 100;
-                double botPos = (bottom / pageHeight) * 100; //1.0052 or 0.9948 due to the difference in the div and img height
-                double topPos = (top / pageHeight) * 100;
-                //double fontSize = (rightPos - leftPos) / (text.Length);
-                double fontSize = ((rightPos - leftPos) + (topPos - botPos)) / (text.Length); //One of these two lines will work, just need to figureout once we get the fontStyles
+                string text;
 
-                //The reason the text is offset is because the text's position is relative to the 'positioned' div that contains it and the img
-                //That div's position is leaking outside of the bounds of the image, so the text isn't lining up perfectly
-                //YOU NEED TO FIX THIS
-                if(count == 0)
+                double leftPos;
+                double rightPos;
+                double botPos;
+                double topPos;
+                double fontSize;
+
+                try
                 {
-                    System.Diagnostics.Debug.WriteLine("WIDTH: " + pageWidth + "   LEFT: " + left + "   RIGHT: " + right);
-                }
+                    PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
+                    text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
 
-                p.InnerHtml = text;
-                p.Attributes["style"] = "display: inline; position: absolute; z-index: 2; color: red; opacity: 0.5; left: " + (leftPos * 0.9499).ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
+                    leftPos = getModPos(left, page.Width);
+                    rightPos = getModPos(right, page.Width);
+                    botPos = getModPos(bottom, page.Height);
+                    topPos = getModPos(top, page.Height);
+
+                    fontSize = ((rightPos - leftPos) + (topPos - botPos)) / text.Length;
+
+                    p = getP(leftPos, botPos, fontSize, text);
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                }
 
                 div.Controls.Add(p);
             }
 
-
             return div;
+        }
+
+        public double getModPos(double num, double total)
+        {
+            return (num / total) * 100;
+        }
+
+        public HtmlGenericControl getP(double leftPos, double botPos, double fontSize, string text)
+        {
+            HtmlGenericControl p = new HtmlGenericControl("p");
+
+            string baseStyle = "display: inline; position: absolute; z-index: 2; color: red; opacity: 0.5;";
+
+            p.InnerHtml = text;
+            p.Attributes["style"] = baseStyle + " left: " + (leftPos * 0.9949).ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
+
+            return p;
         }
     }
 }
