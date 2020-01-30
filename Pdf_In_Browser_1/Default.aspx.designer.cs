@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pdf_In_Browser_1 {
-    
-    
-    public partial class _Default {
-        
+namespace Pdf_In_Browser_1
+{
+
+
+    public partial class _Default
+    {
+
         /// <summary>
         /// btnLoadPdf control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Pdf_In_Browser_1 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLoadPdf;
-        
+
         /// <summary>
         /// FileUpload1 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Pdf_In_Browser_1 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
-        
+
         /// <summary>
         /// pageCount control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Pdf_In_Browser_1 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label pageCount;
-        
+
         /// <summary>
         /// customContainer control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Pdf_In_Browser_1 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl customContainer;
-        
+
         /// <summary>
         /// customViewerL control.
         /// </summary>

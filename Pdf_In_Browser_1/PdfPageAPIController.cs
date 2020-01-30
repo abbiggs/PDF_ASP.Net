@@ -10,13 +10,15 @@ namespace Pdf_In_Browser_1
 {
     public class PdfPageAPIController : ApiController
     {
-
+          
         PdfPageImage[] pageImages = new PdfPageImage[]
         {
             new PdfPageImage {name = "page1"},
             new PdfPageImage {name = "page2"},
             new PdfPageImage {name = "page3"},
         };
+
+
         
         
 

@@ -21,6 +21,18 @@
     }
 }
 
+function testAPI() {
+
+    $.getJSON("api/PdfPageAPI",
+        function (data) {
+            //Loop through the data
+            $.each(data, function (key, val) {
+                alert(val.name);
+            });
+        });
+    return false;
+}
+
 function pageUp() {
     return false;
 }

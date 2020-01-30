@@ -14,15 +14,15 @@ namespace Pdf_In_Browser_1
     {
         void Application_Start(object sender, EventArgs e)
         {
-            // Code that runs on application startup
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
             RouteTable.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = System.Web.Http.RouteParameter.Optional }
             );
+
+            // Code that runs on application startup
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }
