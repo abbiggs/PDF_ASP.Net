@@ -17,10 +17,6 @@
         <div class="leftImageContainer" ID="customViewerL" runat="server">
         <%-- Dynamically generated images (even numbered pages) are placed here. --%>
         </div>
-
-        <div class="rightImageContainer" ID="customViewerR" runat="server">
-        <%-- Dynamically generated images (odd numbered pages) are placed here. --%>
-        </div>
     </div>
     
     <script src="Scripts/Frontend/FrontendControls.js"></script>
