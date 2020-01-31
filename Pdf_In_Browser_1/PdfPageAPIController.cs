@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web;
+using System.Web.UI.HtmlControls;
 using Pdf_In_Browser_1.BackendClasses;
 
 namespace Pdf_In_Browser_1
@@ -16,18 +18,22 @@ namespace Pdf_In_Browser_1
             new PdfPageImage {name = "page1"},
             new PdfPageImage {name = "page2"},
             new PdfPageImage {name = "page3"},
+            
         };
 
-
-        
         
 
 
 
-        // GET api/<controller>
-        public IEnumerable<PdfPageImage> Get()
+
+        //GET api/<controller>
+        public String Get()
         {
-            return pageImages;
+            Url.Content("~Images/test.jpg");
+            //String imagePath = HttpContext.Current.Server.MapPath("~/Images/test.jpg");
+            String imagePath = Url.Content("~/Images/test.jpg");
+            
+            return imagePath;
         }
 
         // GET api/<controller>/5

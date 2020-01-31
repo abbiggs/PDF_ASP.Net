@@ -14,7 +14,6 @@ namespace Pdf_In_Browser_1
 
         public void AddElementsToContainter(HtmlGenericControl div)
         {
-
             customViewerL.Controls.Add(div);
         }
 

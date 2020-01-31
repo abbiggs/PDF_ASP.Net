@@ -23,15 +23,47 @@
 
 function testAPI() {
 
-    $.getJSON("api/PdfPageAPI",
-        function (data) {
-            //Loop through the data
-            $.each(data, function (key, val) {
-                alert(val.name);
-            });
-        });
+    //$.getJSON("api/PdfPageAPI",
+    //    function (data) {
+    //        //Loop through the data
+    //        $.each(data, function (key, val) {
+    //            alert(val);
+    //        });
+    //    });
+
+
+    $.ajax({
+        type: "GET",
+        url: "api/PdfPageAPI",
+        data: "{}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            alert(response);
+            let newDiv = document.createElement("div");
+            let newImg = document.createElement("img");
+            
+            newImg.src = response;
+            document.getElementById("MainContent_customContainer").appendChild(newImg);
+
+
+        }
+
+
+    });
+
     return false;
 }
+
+//function testAPI() {
+
+//    $.getJSON("api/PdfPageAPI",
+//        function (response) {
+//            alert(response);
+            
+//        });
+//    return false;
+//}
 
 function pageUp() {
     return false;

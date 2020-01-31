@@ -33,10 +33,8 @@ namespace Pdf_In_Browser_1 {
 
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
-            //ilj
             return image;
         }
-
 
         //Loads a selection of pages
         public Image[] pdfToImageArray(int startingPage, int endingPage, PdfDocument document) {
