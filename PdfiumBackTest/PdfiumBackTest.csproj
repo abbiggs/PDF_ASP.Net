@@ -233,6 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TestDocuments\" />
+    <Folder Include="TestImages\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pdf_In_Browser_1\Pdf_In_Browser_1.csproj">
