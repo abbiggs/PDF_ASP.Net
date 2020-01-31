@@ -1,4 +1,4 @@
-﻿﻿body, html {
+﻿body, html {
     background-color: #3c3c4a;
 }
 
@@ -7,7 +7,6 @@ img {
     height: auto;
     background-color: white;
     z-index: 1;
-    user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
