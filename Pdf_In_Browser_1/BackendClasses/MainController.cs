@@ -12,8 +12,7 @@ namespace Pdf_In_Browser_1.BackendClasses
 {
     public class MainController
     {
-
-        PathFinder finder = new PathFinder();
+        readonly PathFinder finder = new PathFinder();
         string fileFromUI;
         int pageCount;
 
