@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Web.UI.HtmlControls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pdf_In_Browser_1;
+using Pdf_In_Browser_1.BackendClasses;
+using Pdf_In_Browser_1.TextExtraction;
 using PDFiumSharp;
 
 namespace PdfiumBackTest {
@@ -11,31 +14,87 @@ namespace PdfiumBackTest {
     public class TestConverter {
 
         [TestMethod]
-        public void TestFindingPdf() {
+        public void TestGetFilePath()
+        {
+            PathFinder finder = new PathFinder();
+            string fileName = "testdoc.pdf";
 
-            string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            PdfDocument document;
+            string returned = finder.GetPdfFilePath(fileName);
 
-            path = path + @"\TestDocuments\testdoc.pdf";
-            document = new PdfDocument(path);
-
-            Assert.IsNotNull(document);
+            Assert.AreEqual(returned, "testdoc.pdf");
         }
 
         [TestMethod]
-        public void TestConvertingToImage() {
+        public void TestGetFilePath2()
+        {
+            PathFinder finder = new PathFinder();
+            string fileName = "testdoc.pdf";
 
-            string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string returned = finder.GetPdfFilePath(fileName);
+
+            Assert.AreNotEqual(returned, "annotations.pdf");
+        }
+
+        [TestMethod]
+        public void TestTextPositioning()
+        {
+            PdfTextExtractor extractor = new PdfTextExtractor();
+
+            double result = extractor.getModPos(50, 200);
+
+            Assert.AreEqual(25, result);
+        }
+
+        [TestMethod]
+        public void TestTextPositioning2()
+        {
+            PdfTextExtractor extractor = new PdfTextExtractor();
+
+            double result = extractor.getModPos(150, 200);
+
+            Assert.AreNotEqual(25, result);
+        }
+
+        [TestMethod]
+        public void TestGetDocument()
+        {
+            MainController controller = new MainController("testdoc.pdf");
+
+            PdfDocument doc = controller.GetDocument();
+
+            Assert.IsNull(doc);
+        }
+
+        [TestMethod]
+        public void TestGetImage()
+        {
+            MainController controller = new MainController("testdoc.pdf");
             PdfToImageConverter converter = new PdfToImageConverter();
-            PdfDocument document;
-            Image result;
+            PdfDocument doc = controller.GetDocument();
 
-            path = path + @"\TestDocuments\testdoc.pdf";
-            document = new PdfDocument(path);
+            Image img = converter.pdfToImageByPage(0, doc);
 
-            result = converter.pdfToImageByPage(0, document);
+            Assert.IsNull(img);
+        }
 
-            Assert.IsNull(result);
+        [TestMethod]
+        public void TestGetP()
+        {
+            PdfTextExtractor extractor = new PdfTextExtractor();
+
+            HtmlGenericControl p = extractor.getP(25, 50, 12.5, "test");
+
+            Assert.IsNotNull(p);
+        }
+
+        [TestMethod]
+        public void TestGetP2()
+        {
+            PdfTextExtractor extractor = new PdfTextExtractor();
+
+            HtmlGenericControl p = extractor.getP(25, 50, 12.5, "test");
+
+            Assert.AreEqual(p.InnerHtml, "test");
         }
     }
 }

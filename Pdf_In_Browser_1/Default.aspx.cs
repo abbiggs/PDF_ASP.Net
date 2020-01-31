@@ -37,7 +37,6 @@ namespace Pdf_In_Browser_1
             if (FileUpload1.HasFile)
             {
                 MainController controller = new MainController(Path.GetFileName(FileUpload1.FileName));
-
                 SaveDocument();
                 //AddElementsToContainter(controller.InitialPageDisplay());
 
