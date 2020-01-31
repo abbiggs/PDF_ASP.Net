@@ -12,7 +12,7 @@ namespace Pdf_In_Browser_1
     public partial class _Default : Page
     {
 
-        public void AddElementsToContainter(HtmlGenericControl div)
+        public void AddElementsToContainer(HtmlGenericControl div)
         {
             customViewerL.Controls.Add(div);
         }
@@ -34,13 +34,16 @@ namespace Pdf_In_Browser_1
 
         protected void btnLoadPdf_Click(object sender, EventArgs e)
         {
-
             if (FileUpload1.HasFile)
             {
                 MainController controller = new MainController(Path.GetFileName(FileUpload1.FileName));
 
                 SaveDocument();
-                AddElementsToContainter(controller.DisplayAllPages());
+                //AddElementsToContainter(controller.InitialPageDisplay());
+
+                AddElementsToContainer(controller.DisplayPage(0));
+                AddElementsToContainer(controller.DisplayPage(1));
+                controller.saveAllImages();
                 UpdatePageTotalUI(controller.GetPageCount());
             }
         }

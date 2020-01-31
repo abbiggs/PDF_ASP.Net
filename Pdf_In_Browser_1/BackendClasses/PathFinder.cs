@@ -25,7 +25,8 @@ namespace Pdf_In_Browser_1.BackendClasses
         public string GetImgFilePath(string fileName, int i)
         {
 
-            return "~/TestImages/" + fileName + i.ToString() + ".png";
+            //return "~/TestImages/" + fileName + i.ToString() + ".png";
+            return "~/TestImages/" + i.ToString() + ".png";
         }
     }
 }

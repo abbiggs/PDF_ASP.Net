@@ -97,6 +97,50 @@ namespace Pdf_In_Browser_1.BackendClasses
             return div;
         }
 
+        public void saveImage(int pageNum)
+        {
+            HtmlGenericControl div = new HtmlGenericControl("div");
+            PdfToImageConverter converter = new PdfToImageConverter();
+            Image pageImg = null;
+
+            string imgPath = finder.GetImgFilePath(fileFromUI, pageNum);
+
+            PdfDocument document = GetDocument();
+
+            pageImg = converter.pdfToImageByPage(pageNum, document);
+            pageImg.Save(HostingEnvironment.MapPath(imgPath));
+        }
+
+        public void saveAllImages()
+        {
+            PdfDocument document = GetDocument();
+            PdfPageCollection pages = document.Pages;
+
+            pageCount = pages.Count;
+
+            for (int pageNum = 0; pageNum < pageCount; pageNum++)
+            {
+                saveImage(pageNum);
+            }
+        }
+
+        public HtmlGenericControl InitialPageDisplay()
+        {
+            HtmlGenericControl div = new HtmlGenericControl("div");
+            PdfDocument document = GetDocument();
+            PdfPageCollection pages = document.Pages;
+
+            pageCount = pages.Count;
+
+            for (int pageNum = 0; pageNum < 2; pageNum++)
+            {
+
+                div.Controls.Add(DisplayPage(pageNum));
+            }
+
+            return div;
+        }
+
         public int GetPageCount()
         {
             return pageCount;
