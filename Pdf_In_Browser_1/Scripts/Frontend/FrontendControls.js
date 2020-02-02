@@ -1,6 +1,4 @@
 ﻿
-
-
 function jumpToPage(event) {
 
     //Executes on enter key press event
@@ -23,28 +21,8 @@ function jumpToPage(event) {
         }
     }
 }
-function testAPI() {
 
-    $.ajax({
-        type: "GET",
-        url: "api/PdfPageAPI",
-        data: "{}",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            alert(response);
-            let newDiv = document.createElement("div");
-            let newImg = document.createElement("img");
-            
-            newImg.src = response;
-            document.getElementById("MainContent_customViewerL").appendChild(newImg);
-
-        }
-    });
-
-    return false;
-}
-
+//API call to load the next available page
 function loadNextPage() {
     var pageCount = document.getElementById("MainContent_customViewerL").children.length;
 
@@ -69,6 +47,7 @@ function loadNextPage() {
 
 //Keeps track of the last child to have entered the view, as to not execute loadNextPage() multiple times per element.
 var prevChild = null;
+//Loads the next available page when the final loaded page is scrolled into view
 $(window).scroll(function () {
     //This function is used to detect if the element is scrolled into view
     function elementScrolled(elem) {
@@ -90,6 +69,7 @@ $(window).scroll(function () {
     }
 });
 
+//Pulls the total number of pages from the page count label
 function getPdfPageTotal() {
     let pageTotal = document.getElementById("MainContent_pageCount").innerText;
     let endIndex = null;
@@ -101,11 +81,114 @@ function getPdfPageTotal() {
     }
     pageTotal = pageTotal.substring(1, i);
 
-
     return pageTotal;
 }
 
+//Pulls the filename from the page count label
+function getFileName() {
+    let filename = null;
+    let labelText = document.getElementById("MainContent_pageCount").innerText;
+    let startIndex = null;
+    for (var i = 0; i < labelText.length; i++) {
+        if (labelText.charAt(i) == " ") {
+            startIndex = i;
+            break;
+        }
+    }
+    filename = labelText.substring(i + 1, labelText.length);
+
+    return filename;
+}
+
+function testClientClick() {
+    
+    $.ajax({
+        type: "POST",
+        url: "api/PdfPageAPI?filename=" + getFileName() + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            alert(response);
+        }
+    });
+
+    return false;
+}
+
+//API call to save all the pages from the current document as images
+function saveAllPages() {
+    $.ajax({
+        type: "POST",
+        url: "api/PdfPageAPI?filename=" + getFileName() + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            //loadFirstPages();
+        }
+    });
+
+    loadFirstPages();
+
+    return false;
+}
+
+//API call to retrieve the first two pages of the current document
+function loadFirstPages() {
+    let pageNum = 0
+    $.ajax({
+        type: "GET",
+        url: "api/PdfPageAPI?pageNum=" + pageNum + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+
+            let newDiv = document.createElement("div");
+            let newImg = document.createElement("img");
+            newImg.src = response;
+            newDiv.appendChild(newImg);
+            document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+
+            pageNum += 1;
+            if (pageNum <= 1) {
+                loadPage(pageNum);
+            }
+        },
+        failure: function (response) {
+            loadPage(pageNum);
+        }
+    });
+    return false;
+}
+
+//API call that takes a page number as parameter to load a specific page of the current document
+function loadPage(pageNum) {
+    $.ajax({
+        type: "GET",
+        url: "api/PdfPageAPI?pageNum=" + pageNum + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+
+            let newDiv = document.createElement("div");
+            let newImg = document.createElement("img");
+            newImg.src = response;
+            newDiv.appendChild(newImg);
+            document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+        },
+        failure: function (response) {
+            alert("failure");
+            loadPage(pageNum);
+        }
+    });
+    return false;
+}
+
 function pageUp() {
+    alert("!" + getFileName() + "!");
     return false;
 }
 

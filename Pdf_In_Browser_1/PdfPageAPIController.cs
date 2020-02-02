@@ -12,7 +12,7 @@ namespace Pdf_In_Browser_1
 {
     public class PdfPageAPIController : ApiController
     {
-        
+
         //GET api/<controller>
         //public String Get()
         //{
@@ -24,6 +24,14 @@ namespace Pdf_In_Browser_1
         {
             String imagePath = Url.Content("~/TestImages/" + pageNum + ".png");
             return imagePath;
+        }
+
+
+        [HttpPost]
+        public void Post(String filename)
+        {
+            MainController pageController = new MainController(filename);
+            pageController.saveAllImages();
         }
 
 
@@ -53,10 +61,10 @@ namespace Pdf_In_Browser_1
         //    return "value";
         //}
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
+        //// POST api/<controller>
+        //public void Post([FromBody]string value)
+        //{
+        //}
 
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)

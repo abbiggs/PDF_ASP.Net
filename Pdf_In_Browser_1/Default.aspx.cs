@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using System.Web.Http;
 using PDFiumSharp;
 using System.IO;
 using System.Drawing;
@@ -32,18 +33,17 @@ namespace Pdf_In_Browser_1
             FileUpload1.SaveAs(path);
         }
 
+        [Obsolete]
         protected void btnLoadPdf_Click(object sender, EventArgs e)
         {
             if (FileUpload1.HasFile)
             {
+                //Saves the document, updates page label, and then fires client side function to make API call to save all pages as images
                 MainController controller = new MainController(Path.GetFileName(FileUpload1.FileName));
                 SaveDocument();
-                //AddElementsToContainter(controller.InitialPageDisplay());
-
-                AddElementsToContainer(controller.DisplayPage(0));
-                AddElementsToContainer(controller.DisplayPage(1));
-                controller.saveAllImages();
+                controller.GetDocument();
                 UpdatePageTotalUI(controller.GetPageCount());
+                Page.RegisterStartupScript("page", "<script language='javascript'>saveAllPages()</script>");
             }
         }
     }

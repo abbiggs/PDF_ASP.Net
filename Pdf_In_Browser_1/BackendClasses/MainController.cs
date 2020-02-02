@@ -56,7 +56,7 @@ namespace Pdf_In_Browser_1.BackendClasses
 
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
-            
+            pageCount = document.Pages.Count;
             return document;
         }
 
