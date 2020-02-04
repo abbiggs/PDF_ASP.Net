@@ -116,11 +116,30 @@ function testClientClick() {
     return false;
 }
 
+//API call to save the first two images from the current document as images
+function saveFirstPages() {
+    $.ajax({
+        type: "POST",
+        url: "api/PdfPageAPI?filename=" + getFileName() + "_f",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            loadFirstPages();
+            saveAllPages();
+        }
+    });
+
+    return false;
+}
+
+
+
 //API call to save all the pages from the current document as images
 function saveAllPages() {
     $.ajax({
         type: "POST",
-        url: "api/PdfPageAPI?filename=" + getFileName() + "",
+        url: "api/PdfPageAPI?filename=" + getFileName() + "_a",
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -129,7 +148,7 @@ function saveAllPages() {
         }
     });
 
-    loadFirstPages();
+    //loadFirstPages();
 
     return false;
 }
@@ -137,6 +156,7 @@ function saveAllPages() {
 //API call to retrieve the first two pages of the current document
 function loadFirstPages() {
     let pageNum = 0
+
     $.ajax({
         type: "GET",
         url: "api/PdfPageAPI?pageNum=" + pageNum + "",
@@ -148,6 +168,7 @@ function loadFirstPages() {
             let newDiv = document.createElement("div");
             let newImg = document.createElement("img");
             newImg.src = response;
+
             newDiv.appendChild(newImg);
             document.getElementById("MainContent_customViewerL").appendChild(newDiv);
 
@@ -155,6 +176,7 @@ function loadFirstPages() {
             if (pageNum <= 1) {
                 loadPage(pageNum);
             }
+            
         },
         failure: function (response) {
             loadPage(pageNum);

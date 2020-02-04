@@ -6,7 +6,8 @@
     
     <div class="actionButtonsDiv" runat="server">
         <asp:Button class="actionButton" ID="btnLoadPdf" runat="server" OnClick="btnLoadPdf_Click" Text="Load PDF" />
-        <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button>
+        <asp:Button class="actionButton" ID="btnClosePdf" runat="server" Text="Close PDF" OnClick="btnClosePdf_Click" />
+        <%-- %> <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button> --%>
         <asp:FileUpload class="actionButton" ID="FileUpload1" accept=".pdf" runat="server" />
         <%-- <asp:TextBox class="manualPageInput" ID="pageNum" runat="server" OnClick="return false;"></asp:TextBox> --%>
         <button class="actionButton" id="btnPageUp" onclick="pageUp()">▲</button>

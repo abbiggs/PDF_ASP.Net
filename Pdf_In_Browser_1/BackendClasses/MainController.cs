@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -110,6 +111,20 @@ namespace Pdf_In_Browser_1.BackendClasses
             pageImg.Save(HostingEnvironment.MapPath(imgPath));
         }
 
+
+        public void saveFirstImages()
+        {
+            PdfDocument document = GetDocument();
+            PdfPageCollection pages = document.Pages;
+
+            pageCount = pages.Count;
+
+            for (int pageNum = 0; pageNum < 2; pageNum++)
+            {
+                saveImage(pageNum);
+            }
+        }
+
         public void saveAllImages()
         {
             PdfDocument document = GetDocument();
@@ -117,7 +132,7 @@ namespace Pdf_In_Browser_1.BackendClasses
 
             pageCount = pages.Count;
 
-            for (int pageNum = 0; pageNum < pageCount; pageNum++)
+            for (int pageNum = 2; pageNum < pageCount; pageNum++)
             {
                 saveImage(pageNum);
             }

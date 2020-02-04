@@ -26,6 +26,7 @@ namespace Pdf_In_Browser_1 {
 
                 //Use (int)page.Width and (int)page.Height in future
                 bitmap = new Bitmap(width, height);
+                bitmap.SetResolution(400.0f, 400.0f);
                 RenderingExtensionsGdiPlus.Render(page, bitmap);
                 image = bitmap;
 

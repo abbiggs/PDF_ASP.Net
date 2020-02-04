@@ -36,6 +36,7 @@ namespace Pdf_In_Browser_1
         [Obsolete]
         protected void btnLoadPdf_Click(object sender, EventArgs e)
         {
+            
             if (FileUpload1.HasFile)
             {
                 //Saves the document, updates page label, and then fires client side function to make API call to save all pages as images
@@ -43,7 +44,18 @@ namespace Pdf_In_Browser_1
                 SaveDocument();
                 controller.GetDocument();
                 UpdatePageTotalUI(controller.GetPageCount());
-                Page.RegisterStartupScript("page", "<script language='javascript'>saveAllPages()</script>");
+                Page.RegisterStartupScript("page", "<script language='javascript'>saveFirstPages()</script>");
+            }
+              
+        }
+
+        protected void btnClosePdf_Click(object sender, EventArgs e)
+        {
+            System.IO.DirectoryInfo directory = new DirectoryInfo(Server.MapPath("~/TestImages"));
+
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                file.Delete();
             }
         }
     }
