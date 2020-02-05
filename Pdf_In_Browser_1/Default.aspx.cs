@@ -46,17 +46,17 @@ namespace Pdf_In_Browser_1
                 UpdatePageTotalUI(controller.GetPageCount());
                 Page.RegisterStartupScript("page", "<script language='javascript'>saveFirstPages()</script>");
             }
-              
-        }
-
-        protected void btnClosePdf_Click(object sender, EventArgs e)
-        {
+            //Deletes the contents of the TestImages Folder when LoadPDF button is clicked
             System.IO.DirectoryInfo directory = new DirectoryInfo(Server.MapPath("~/TestImages"));
 
             foreach (FileInfo file in directory.GetFiles())
             {
                 file.Delete();
+
+
             }
+
+
         }
     }
 }
