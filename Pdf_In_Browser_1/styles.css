@@ -43,6 +43,15 @@ div, p {
     top: 0;
 }
 
+.pageDiv{
+    float: left;
+}
+
+#MainContent_customContainerL{
+    position: absolute;
+    overflow: hidden;
+}
+
 .pageCount {
     color: white;
 }
