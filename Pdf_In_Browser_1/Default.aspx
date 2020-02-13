@@ -3,7 +3,8 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <link href="styles.css" rel="stylesheet" type="text/css" />
     
-    
+    <div id="errorMsgDiv">Failed To Load Page</div>
+
     <div class="actionButtonsDiv" runat="server">
         <asp:Button class="actionButton" ID="btnLoadPdf" runat="server" OnClick="btnLoadPdf_Click" Text="Load PDF" />
         <%-- %> <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button> --%>

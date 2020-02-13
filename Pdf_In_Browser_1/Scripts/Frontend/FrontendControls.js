@@ -1,4 +1,5 @@
-﻿
+﻿var errorMsgDiv = document.getElementById("errorMsgDiv");
+
 function jumpToPage(event) {
 
     //Executes on enter key press event
@@ -9,7 +10,7 @@ function jumpToPage(event) {
             var pageNum = document.getElementById("manualPageInput").value;
             var actualPageNum = pageNum - 1;
 
-            document.getElementById("MainContent_img" + actualPageNum).scrollIntoView();
+            document.getElementById("page" + actualPageNum).scrollIntoView();
 
             return false;
 
@@ -25,22 +26,29 @@ function jumpToPage(event) {
 //API call to load the next available page
 function loadNextPage() {
     var pageCount = document.getElementById("MainContent_customViewerL").children.length;
-
-    $.ajax({
-        type: "GET",
-        url: "api/PdfPageAPI?filename=" + pageCount + "_" + getFileName() + "",
-        data: "",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
+    GetPage(pageCount);
+    //$.ajax({
+    //    type: "GET",
+    //    url: "api/PdfPageAPI?filename=" + pageCount + "_" + getFileName() + "",
+    //    data: "",
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "json",
+    //    success: function (response) {
             
-            let newDiv = document.createElement("div");
-            let newImg = document.createElement("img");
-            newImg.src = response;
-            newDiv.appendChild(newImg);
-            document.getElementById("MainContent_customViewerL").appendChild(newDiv);
-        }
-    });
+    //        let newDiv = document.createElement("div");
+    //        let newImg = document.createElement("img");
+    //        newImg.src = response.imgPath;
+    //        newDiv.appendChild(newImg);
+    //        newImg.onerror = function () {
+    //            errorMsgDiv.style.display = "block";
+    //            setTimeout(function () {
+    //                errorMsgDiv.style.display = "none";
+    //            }, 2);
+    //            return false;
+    //        }
+    //        document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+    //    }
+    //});
 
     return false;
 }
@@ -125,6 +133,7 @@ function saveFirstPages() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
+            //GetPage(0);
             loadFirstPages();
             saveAllPages();
         }
@@ -149,39 +158,6 @@ function saveAllPages() {
     return false;
 }
 
-//API call to retrieve the first two pages of the current document
-//function loadFirstPages() {
-//    let pageNum = 0
-
-//    $.ajax({
-//        type: "GET",
-//        url: "api/PdfPageAPI?pageNum=" + pageNum + "",
-//        data: "",
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "json",
-//        success: function (response) {
-            
-//            let newDiv = document.createElement("div");
-//            let newImg = document.createElement("img");
-//            newImg.src = response;
-
-//            newDiv.appendChild(newImg);
-//            document.getElementById("MainContent_customViewerL").appendChild(newDiv);
-
-//            pageNum += 1;
-//            if (pageNum <= 1) {
-//                loadPage(pageNum);
-//            }
-            
-//        },
-//        failure: function (response) {
-//            loadPage(pageNum);
-//        }
-//    });
-//    return false;
-//}
-
-
 //This is the function that makes an API call and returns img path and text data
 //It's already returning the correct info, we just stick it in the front end
 function loadFirstPages() {
@@ -197,35 +173,48 @@ function loadFirstPages() {
 
             //response.imgPath will return the image path as a string
             //response.textData will return the 2d array containing the text and the styles
-
-
+            showPage(response, pageNum)
+            
+            pageNum += 1;
             if (pageNum < 2) {
-                loadPage(pageNum);
+                GetPage(pageNum)
             }
         },
         failure: function () {
-            loadPage(pageNum);
+            GetPage(pageNum)
         }
     });
 
     return false;
 }
 
-//API call that takes a page number as parameter to load a specific page of the current document
+//API call that takes page number as parameter, and returns image path / text data
 function loadPage(pageNum) {
     $.ajax({
         type: "GET",
-        url: "api/PdfPageAPI?pageNum=" + pageNum + "",
+        url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
 
             let newDiv = document.createElement("div");
+            newDiv.className = "pageDiv";
             let newImg = document.createElement("img");
-            newImg.src = response;
+            newImg.src = response.imgPath;
             newDiv.appendChild(newImg);
+
+            let textData = response.textData;
+
+            for (var i = 0; i < textData[0].length; i++) {
+                let newP = document.createElement("p");
+                newP.innerHTML = textData[0][i];
+                newP.style = textData[1][i];
+                newDiv.appendChild(newP);
+            }
+
             document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+            
         },
         failure: function (response) {
             alert("failure");
@@ -234,6 +223,68 @@ function loadPage(pageNum) {
     });
     return false;
 }
+
+//API call that returns with a json object containing an image path, and a 2d array of text data/styles
+function GetPage(pageNum) {
+    $.ajax({
+        type: "GET",
+        url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            showPage(response, pageNum);
+        },
+        failure: function (response) {
+            alert("failure");
+            GetPage(pageNum);
+        }
+    });
+    return false;
+}
+
+//Passed 'response' data from API call function GetPage(pageNum) as parameter 'data'
+//Uses 'data' to extract image path and text data, then displays the page on the screen
+function showPage(data, pageNum) {
+    let newDiv = document.createElement("div");
+    let newImg = document.createElement("img");
+    newImg.src = data.imgPath;
+    newImg.id = "page" + pageNum;
+    newDiv.appendChild(newImg);
+    newDiv.className = "pageDiv";
+    //Occurs when image path is invalid (couldn't load image)
+    newImg.onerror = function () {
+        setTimeout(function () {
+            errorMsgDiv.style.display = "block";
+        }, 1);
+        return false;
+    }
+
+    let textData = data.textData;
+
+    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
+    //Extracted elements added to newDiv
+    for (var i = 0; i < textData[0].length; i++) {
+        let newP = document.createElement("p");
+        newP.innerHTML = textData[0][i];
+        newP.style = textData[1][i];
+        newDiv.appendChild(newP);
+    }
+
+    document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+    
+}
+
+
+
+
+
+
+
+
+
+
+
 
 function pageUp() {
     alert("!" + getFileName() + "!");
@@ -244,3 +295,4 @@ function pageDown() {
     //document.getElementById("customViewer1").child
     return false;
 }
+
