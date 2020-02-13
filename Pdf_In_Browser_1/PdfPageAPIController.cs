@@ -58,13 +58,13 @@ namespace Pdf_In_Browser_1
             {
                 filename = filename.Substring(0, filename.Length - 2);
                 MainController pageController = new MainController(filename);
-                pageController.saveFirstImages();
+                pageController.SaveFirstImages();
             }
             else if(filename.EndsWith("a"))
             {
                 filename = filename.Substring(0, filename.Length - 2);
                 MainController pageController = new MainController(filename);
-                pageController.saveAllImages();
+                pageController.SaveAllImages();
             }
         }
 
