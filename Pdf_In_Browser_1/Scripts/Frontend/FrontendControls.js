@@ -7,49 +7,129 @@ function jumpToPage(event) {
 
         try {
 
+            //Checks that the user entered page number is within the page bounds
             var pageNum = document.getElementById("manualPageInput").value;
-            var actualPageNum = pageNum - 1;
+            if(pageNum <= getPdfPageTotal() && pageNum > 0){
+                var actualPageNum = pageNum - 1;
 
-            document.getElementById("page" + actualPageNum).scrollIntoView();
+                //Checks whether or not the page is already loaded on the screen
+                var page = document.getElementById("page" + actualPageNum);
+                if (page != null) {
+                    page.scrollIntoView()
+                } else if (page == null) {
+                    var totalPages = document.getElementById("MainContent_customViewerL").children.length;
+                    loadPageOutOfSync(actualPageNum, totalPages);
+                }
 
-            return false;
+                return false;
+            }
+
+            if (pageNum <= 0 || pageNum > getPdfPageTotal()) {
+                alert("Page Number Out Of Bounds.")
+                return false;
+            }
+            
 
         } catch (error) {
 
-            alert("Page Number Out Of Bounds.");
+            alert(error);
 
             return false;
         }
     }
 }
 
+function loadPageOutOfSync(actualPageNum, totalPages) {
+    let currentTotal = document.getElementById("MainContent_customViewerL").children.length;
+
+    GetPageOutOfSync(actualPageNum);
+    //var page = document.getElementById("page" + actualPageNum);
+    //page.scrollIntoView();
+
+    //let targetNum = actualPageNum;
+    
+    //loadIntermediaryPages(actualPageNum - 1, totalPages, targetNum);
+    
+    
+
+    return false;
+}
+
+function loadIntermediaryPages(actualPageNum, totalPages, targetNum) {
+
+    let pageNum = actualPageNum - 1;
+    let targetPos = targetNum;
+
+    if (pageNum >= totalPages) {
+        $.ajax({
+            type: "GET",
+            url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                let target = document.getElementById("div" + targetPos);
+                //alert(targetPos)
+                showIntermediaryPage(response, pageNum, target, totalPages);
+
+                //pageNum -= 1;
+                //if (pageNum > totalPages) {
+                //    loadIntermediaryPages(pageNum, totalPages, targetPos - 1);
+                //}
+
+            },
+            failure: function (response) {
+                alert("failure");
+                GetPage(pageNum);
+            }
+        });
+    } else {
+        return false;
+    }
+
+    return false;
+}
+
+function showIntermediaryPage(data, pageNum, target, totalPages) {
+    let newDiv = document.createElement("div");
+    let newImg = document.createElement("img");
+    newImg.src = data.imgPath;
+    newImg.id = "page" + pageNum;
+    newDiv.appendChild(newImg);
+    newDiv.className = "pageDiv";
+    newDiv.id = "div" + pageNum;
+
+    //Occurs when image path is invalid (couldn't load image)
+    newImg.onerror = function () {
+        setTimeout(function () {
+            errorMsgDiv.style.display = "block";
+        }, 1);
+        return false;
+    }
+
+    let textData = data.textData;
+
+    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
+    //Extracted elements added to newDiv
+    for (var i = 0; i < textData[0].length; i++) {
+        let newP = document.createElement("p");
+        newP.innerHTML = textData[0][i];
+        newP.style = textData[1][i];
+        newDiv.appendChild(newP);
+    }
+    
+    document.getElementById("MainContent_customViewerL").insertBefore(newDiv, target);
+
+    loadIntermediaryPages(pageNum, totalPages, pageNum);
+
+}
+
 //API call to load the next available page
 function loadNextPage() {
     var pageCount = document.getElementById("MainContent_customViewerL").children.length;
     GetPage(pageCount);
-    //$.ajax({
-    //    type: "GET",
-    //    url: "api/PdfPageAPI?filename=" + pageCount + "_" + getFileName() + "",
-    //    data: "",
-    //    contentType: "application/json; charset=utf-8",
-    //    dataType: "json",
-    //    success: function (response) {
-            
-    //        let newDiv = document.createElement("div");
-    //        let newImg = document.createElement("img");
-    //        newImg.src = response.imgPath;
-    //        newDiv.appendChild(newImg);
-    //        newImg.onerror = function () {
-    //            errorMsgDiv.style.display = "block";
-    //            setTimeout(function () {
-    //                errorMsgDiv.style.display = "none";
-    //            }, 2);
-    //            return false;
-    //        }
-    //        document.getElementById("MainContent_customViewerL").appendChild(newDiv);
-    //    }
-    //});
-
+    
     return false;
 }
 
@@ -72,7 +152,7 @@ $(window).scroll(function () {
     if (elementScrolled(childElement) && childElement != prevChild && childCount < pageTotal) {
 
         prevChild = childElement;
-        loadNextPage();
+        //loadNextPage();
         
     }
 });
@@ -171,8 +251,6 @@ function loadFirstPages() {
         dataType: "json",
         success: function (response) {
 
-            //response.imgPath will return the image path as a string
-            //response.textData will return the 2d array containing the text and the styles
             showPage(response, pageNum)
             
             pageNum += 1;
@@ -243,6 +321,42 @@ function GetPage(pageNum) {
     return false;
 }
 
+function GetPages(startPage) {
+    $.ajax({
+        type: "GET",
+        url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            showPage(response, pageNum);
+        },
+        failure: function (response) {
+            alert("failure");
+            GetPage(pageNum);
+        }
+    });
+    return false;
+}
+
+function GetPageOutOfSync(pageNum) {
+    $.ajax({
+        type: "GET",
+        url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            
+            showPageOutOfSync(response, pageNum);
+        },
+        failure: function (response) {
+            alert("failure");
+            GetPage(pageNum);
+        }
+    });
+}
+
 //Passed 'response' data from API call function GetPage(pageNum) as parameter 'data'
 //Uses 'data' to extract image path and text data, then displays the page on the screen
 function showPage(data, pageNum) {
@@ -252,6 +366,8 @@ function showPage(data, pageNum) {
     newImg.id = "page" + pageNum;
     newDiv.appendChild(newImg);
     newDiv.className = "pageDiv";
+    newDiv.id = "div" + pageNum;
+
     //Occurs when image path is invalid (couldn't load image)
     newImg.onerror = function () {
         setTimeout(function () {
@@ -275,12 +391,56 @@ function showPage(data, pageNum) {
     
 }
 
+function showPageOutOfSync(data, pageNum) {
+    let newDiv = document.createElement("div");
+    let newImg = document.createElement("img");
+    newImg.src = data.imgPath;
+    newImg.id = "page" + pageNum;
+    newDiv.appendChild(newImg);
+    newDiv.className = "pageDiv";
+    newDiv.id = "div" + pageNum;
+
+    //Occurs when image path is invalid (couldn't load image)
+    newImg.onerror = function () {
+        setTimeout(function () {
+            errorMsgDiv.style.display = "block";
+        }, 1);
+        return false;
+    }
+
+    let textData = data.textData;
+
+    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
+    //Extracted elements added to newDiv
+    for (var i = 0; i < textData[0].length; i++) {
+        let newP = document.createElement("p");
+        newP.innerHTML = textData[0][i];
+        newP.style = textData[1][i];
+        newDiv.appendChild(newP);
+    }
+
+    let totalPages = document.getElementById("MainContent_customViewerL").children.length;
+    let targetNum = pageNum;
+
+    //document.getElementById("MainContent_customViewerL").insertBefore(newDiv, targetDiv);
+    document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+    document.getElementById("page" + pageNum).scrollIntoView();
+    
+    //lockScrollPosition();
+ 
+    loadIntermediaryPages(pageNum, totalPages, targetNum);
+}
+
+
+function lockScrollPosition() {
+    $('body').css({ 'overflow': 'hidden' });
+}
 
 
 
-
-
-
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
 
 
 
