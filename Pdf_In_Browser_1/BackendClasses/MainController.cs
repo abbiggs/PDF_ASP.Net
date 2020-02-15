@@ -25,7 +25,7 @@ namespace Pdf_In_Browser_1.BackendClasses
             HtmlGenericControl div = new HtmlGenericControl("div");
             HtmlImage img = new HtmlImage();
 
-            HtmlGenericControl textDiv = textExtractor.getPageText(pageNum, document);
+            HtmlGenericControl textDiv = textExtractor.GetPageText(pageNum, document);
 
             img.Src = path;
             img.ID = "img" + pageNum;
@@ -66,7 +66,7 @@ namespace Pdf_In_Browser_1.BackendClasses
 
             PdfDocument document = GetDocument();
 
-            Image pageImg = converter.pdfToImageByPage(pageNum, document);
+            Image pageImg = converter.PdfToImageByPage(pageNum, document);
             pageImg.Save(HostingEnvironment.MapPath(imgPath));
 
             HtmlGenericControl div = GetDiv(pageNum, imgPath, document);
@@ -99,7 +99,7 @@ namespace Pdf_In_Browser_1.BackendClasses
 
             PdfDocument document = GetDocument();
 
-            Image pageImg = converter.pdfToImageByPage(pageNum, document);
+            Image pageImg = converter.PdfToImageByPage(pageNum, document);
             pageImg.Save(HostingEnvironment.MapPath(imgPath));
         }
 
