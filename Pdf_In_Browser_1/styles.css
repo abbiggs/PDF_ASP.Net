@@ -39,8 +39,14 @@ div, p {
 
 .actionButtonsDiv {
     background-color: #52525f;
-    position: sticky;
+    position: fixed;
     top: 0;
+    z-index: 3;
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    width: 100%;
 }
 
 .pageDiv{
@@ -70,6 +76,8 @@ div, p {
     position: absolute;
     width: 100%;
     display: flex;
+    position: relative;
+    top: 50px;
 }
 
 .leftImageContainer {

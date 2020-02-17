@@ -152,7 +152,7 @@ $(window).scroll(function () {
     if (elementScrolled(childElement) && childElement != prevChild && childCount < pageTotal) {
 
         prevChild = childElement;
-        //loadNextPage();
+        loadNextPage();
         
     }
 });
