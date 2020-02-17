@@ -6,17 +6,47 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.Web.UI.HtmlControls;
+using PDFiumSharp;
 using Pdf_In_Browser_1.BackendClasses;
+using Pdf_In_Browser_1.TextExtraction;
 
 namespace Pdf_In_Browser_1
 {
     public class PdfPageAPIController : ApiController
     {
 
-        public String Get(String pageNum)
+        //public String Get(String pageNum)
+        //{
+        //    String imagePath = Url.Content("~/TestImages/" + pageNum + ".png");
+        //    return imagePath;
+        //}
+
+        public PdfPageImage Get(String filename)
         {
-            String imagePath = Url.Content("~/TestImages/" + pageNum + ".png");
-            return imagePath;
+            String pageNum = "";
+            String actualFile = "";
+
+            Char[] fileAsArr = filename.ToCharArray();
+            for(int i = 0; i < fileAsArr.Length; i++)
+            {
+                if(fileAsArr[i].ToString() == "_"){
+                    pageNum = filename.Substring(0, i);
+                    actualFile = filename.Substring(i + 1, filename.Length - i - 1);
+                    break;
+                }
+            }
+
+            MainController pageController = new MainController(actualFile);
+            PdfDocument document = pageController.GetDocument();
+            PdfTextExtractor extractor = new PdfTextExtractor();
+
+            String[,] textData = extractor.getRawText(Convert.ToInt32(pageNum), document);
+
+            PdfPageImage page = new PdfPageImage();
+            page.imgPath = Url.Content("~/TestImages/" + pageNum + ".png");
+            page.textData = textData;
+
+            return page;
         }
 
 
@@ -36,7 +66,6 @@ namespace Pdf_In_Browser_1
                 MainController pageController = new MainController(filename);
                 pageController.saveAllImages();
             }
-            
         }
 
 

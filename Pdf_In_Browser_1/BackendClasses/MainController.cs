@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Hosting;
 using System.Web.UI.HtmlControls;
 using Pdf_In_Browser_1.TextExtraction;
@@ -136,6 +137,21 @@ namespace Pdf_In_Browser_1.BackendClasses
             {
                 saveImage(pageNum);
             }
+        }
+
+        public void saveAllText()
+        {
+            PdfDocument document = GetDocument();
+            PdfPageCollection pages = document.Pages;
+
+            pageCount = pages.Count;
+
+            for(int i = 0; i < pageCount; i++)
+            {
+                File.Create(HostingEnvironment.MapPath("~/TestImages/" + i + ".txt"));
+                //File.Write
+            }
+
         }
 
         public HtmlGenericControl InitialPageDisplay()

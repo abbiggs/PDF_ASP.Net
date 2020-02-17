@@ -28,7 +28,7 @@ function loadNextPage() {
 
     $.ajax({
         type: "GET",
-        url: "api/PdfPageAPI?pageNum=" + pageCount + "",
+        url: "api/PdfPageAPI?filename=" + pageCount + "_" + getFileName() + "",
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -133,8 +133,6 @@ function saveFirstPages() {
     return false;
 }
 
-
-
 //API call to save all the pages from the current document as images
 function saveAllPages() {
     $.ajax({
@@ -144,44 +142,72 @@ function saveAllPages() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-            //loadFirstPages();
+
         }
     });
-
-    //loadFirstPages();
 
     return false;
 }
 
 //API call to retrieve the first two pages of the current document
+//function loadFirstPages() {
+//    let pageNum = 0
+
+//    $.ajax({
+//        type: "GET",
+//        url: "api/PdfPageAPI?pageNum=" + pageNum + "",
+//        data: "",
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (response) {
+            
+//            let newDiv = document.createElement("div");
+//            let newImg = document.createElement("img");
+//            newImg.src = response;
+
+//            newDiv.appendChild(newImg);
+//            document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+
+//            pageNum += 1;
+//            if (pageNum <= 1) {
+//                loadPage(pageNum);
+//            }
+            
+//        },
+//        failure: function (response) {
+//            loadPage(pageNum);
+//        }
+//    });
+//    return false;
+//}
+
+
+//This is the function that makes an API call and returns img path and text data
+//It's already returning the correct info, we just stick it in the front end
 function loadFirstPages() {
-    let pageNum = 0
+    let pageNum = 0;
 
     $.ajax({
         type: "GET",
-        url: "api/PdfPageAPI?pageNum=" + pageNum + "",
+        url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
 
-            let newDiv = document.createElement("div");
-            let newImg = document.createElement("img");
-            newImg.src = response;
+            //response.imgPath will return the image path as a string
+            //response.textData will return the 2d array containing the text and the styles
 
-            newDiv.appendChild(newImg);
-            document.getElementById("MainContent_customViewerL").appendChild(newDiv);
 
-            pageNum += 1;
-            if (pageNum <= 1) {
+            if (pageNum < 2) {
                 loadPage(pageNum);
             }
-            
         },
-        failure: function (response) {
+        failure: function () {
             loadPage(pageNum);
         }
     });
+
     return false;
 }
 

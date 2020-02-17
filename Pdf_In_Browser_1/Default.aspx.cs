@@ -36,7 +36,16 @@ namespace Pdf_In_Browser_1
         [Obsolete]
         protected void btnLoadPdf_Click(object sender, EventArgs e)
         {
-            
+
+            //Deletes the contents of the TestImages Folder when LoadPDF button is clicked
+            //System.IO.DirectoryInfo directory = new DirectoryInfo(Server.MapPath("~/TestImages"));
+
+            //foreach (FileInfo file in directory.GetFiles())
+            //{
+            //    //file.Delete();
+            //}
+
+
             if (FileUpload1.HasFile)
             {
                 //Saves the document, updates page label, and then fires client side function to make API call to save all pages as images
@@ -45,16 +54,9 @@ namespace Pdf_In_Browser_1
                 controller.GetDocument();
                 UpdatePageTotalUI(controller.GetPageCount());
                 Page.RegisterStartupScript("page", "<script language='javascript'>saveFirstPages()</script>");
+                //Page.RegisterStartupScript("page", "<script language='javascript'>newLoadFirstPages()</script>");
             }
-            //Deletes the contents of the TestImages Folder when LoadPDF button is clicked
-            System.IO.DirectoryInfo directory = new DirectoryInfo(Server.MapPath("~/TestImages"));
-
-            foreach (FileInfo file in directory.GetFiles())
-            {
-                file.Delete();
-
-
-            }
+            
 
 
         }
