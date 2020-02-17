@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Web.Hosting;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using PDFiumSharp;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using System.IO;
-using System.Drawing;
 
 namespace Pdf_In_Browser_1.TextExtraction
 {
     public class PdfTextExtractor
     {
 
-        public HtmlGenericControl getPageText(int pageNum, PdfDocument document)
+        public HtmlGenericControl GetPageText(int pageNum, PdfDocument document)
         {
             PdfPage page = document.Pages[pageNum];
             HtmlGenericControl div = new HtmlGenericControl("div");
@@ -42,14 +35,14 @@ namespace Pdf_In_Browser_1.TextExtraction
                     PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
                     text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
 
-                    leftPos = getModPos(left, page.Width);
-                    rightPos = getModPos(right, page.Width);
-                    botPos = getModPos(bottom, page.Height);
-                    topPos = getModPos(top, page.Height);
+                    leftPos = GetModPos(left, page.Width);
+                    rightPos = GetModPos(right, page.Width);
+                    botPos = GetModPos(bottom, page.Height);
+                    topPos = GetModPos(top, page.Height);
 
                     fontSize = ((rightPos - leftPos) + (topPos - botPos)) / text.Length;
 
-                    p = getP(leftPos, botPos, fontSize, text);
+                    p = GetP(leftPos, botPos, fontSize, text);
                 }
                 catch (IndexOutOfRangeException e)
                 {
@@ -62,12 +55,12 @@ namespace Pdf_In_Browser_1.TextExtraction
             return div;
         }
 
-        public double getModPos(double num, double total)
+        public double GetModPos(double num, double total)
         {
             return (num / total) * 100;
         }
 
-        public HtmlGenericControl getP(double leftPos, double botPos, double fontSize, string text)
+        public HtmlGenericControl GetP(double leftPos, double botPos, double fontSize, string text)
         {
             HtmlGenericControl p = new HtmlGenericControl("p");
 
@@ -79,7 +72,7 @@ namespace Pdf_In_Browser_1.TextExtraction
             return p;
         }
 
-        public String[,] getRawText(int pageNum, PdfDocument document)
+        public String[,] GetRawText(int pageNum, PdfDocument document)
         {
             PdfPage page = document.Pages[pageNum];
             HtmlGenericControl div = new HtmlGenericControl("div");
@@ -109,14 +102,14 @@ namespace Pdf_In_Browser_1.TextExtraction
                     PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
                     text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
 
-                    leftPos = getModPos(left, page.Width);
-                    rightPos = getModPos(right, page.Width);
-                    botPos = getModPos(bottom, page.Height);
-                    topPos = getModPos(top, page.Height);
+                    leftPos = GetModPos(left, page.Width);
+                    rightPos = GetModPos(right, page.Width);
+                    botPos = GetModPos(bottom, page.Height);
+                    topPos = GetModPos(top, page.Height);
 
                     fontSize = ((rightPos - leftPos) + (topPos - botPos)) / text.Length;
 
-                    p = getP(leftPos, botPos, fontSize, text);
+                    p = GetP(leftPos, botPos, fontSize, text);
                 }
                 catch (IndexOutOfRangeException e)
                 {

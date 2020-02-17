@@ -38,12 +38,12 @@ namespace Pdf_In_Browser_1
         {
 
             //Deletes the contents of the TestImages Folder when LoadPDF button is clicked
-            //System.IO.DirectoryInfo directory = new DirectoryInfo(Server.MapPath("~/TestImages"));
+            System.IO.DirectoryInfo directory = new DirectoryInfo(Server.MapPath("~/TestImages"));
 
-            //foreach (FileInfo file in directory.GetFiles())
-            //{
-            //    //file.Delete();
-            //}
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                file.Delete();
+            }
 
 
             if (FileUpload1.HasFile)
@@ -54,7 +54,6 @@ namespace Pdf_In_Browser_1
                 controller.GetDocument();
                 UpdatePageTotalUI(controller.GetPageCount());
                 Page.RegisterStartupScript("page", "<script language='javascript'>saveFirstPages()</script>");
-                //Page.RegisterStartupScript("page", "<script language='javascript'>newLoadFirstPages()</script>");
             }
             
 

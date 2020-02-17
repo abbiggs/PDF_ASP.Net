@@ -24,6 +24,10 @@ namespace Pdf_In_Browser_1.BackendClasses
 
         public string GetImgFilePath(string fileName, int i)
         {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentException("message", nameof(fileName));
+            }
 
             //return "~/TestImages/" + fileName + i.ToString() + ".png";
             return "~/TestImages/" + i.ToString() + ".png";

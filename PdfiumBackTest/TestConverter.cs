@@ -40,7 +40,7 @@ namespace PdfiumBackTest {
         {
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            double result = extractor.getModPos(50, 200);
+            double result = extractor.GetModPos(50, 200);
 
             Assert.AreEqual(25, result);
         }
@@ -50,7 +50,7 @@ namespace PdfiumBackTest {
         {
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            double result = extractor.getModPos(150, 200);
+            double result = extractor.GetModPos(150, 200);
 
             Assert.AreNotEqual(25, result);
         }
@@ -72,7 +72,7 @@ namespace PdfiumBackTest {
             PdfToImageConverter converter = new PdfToImageConverter();
             PdfDocument doc = controller.GetDocument();
 
-            Image img = converter.pdfToImageByPage(0, doc);
+            Image img = converter.PdfToImageByPage(0, doc);
 
             Assert.IsNull(img);
         }
@@ -82,7 +82,7 @@ namespace PdfiumBackTest {
         {
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            HtmlGenericControl p = extractor.getP(25, 50, 12.5, "test");
+            HtmlGenericControl p = extractor.GetP(25, 50, 12.5, "test");
 
             Assert.IsNotNull(p);
         }
@@ -92,7 +92,7 @@ namespace PdfiumBackTest {
         {
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            HtmlGenericControl p = extractor.getP(25, 50, 12.5, "test");
+            HtmlGenericControl p = extractor.GetP(25, 50, 12.5, "test");
 
             Assert.AreEqual(p.InnerHtml, "test");
         }

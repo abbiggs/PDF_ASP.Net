@@ -1,10 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
 using System.Web.Hosting;
 using System.Web.UI.HtmlControls;
 using Pdf_In_Browser_1.TextExtraction;
@@ -15,7 +11,7 @@ namespace Pdf_In_Browser_1.BackendClasses
     public class MainController
     {
         readonly PathFinder finder = new PathFinder();
-        string fileFromUI;
+        private readonly string fileFromUI;
         int pageCount;
 
         public MainController(string UIinfo)
@@ -29,7 +25,7 @@ namespace Pdf_In_Browser_1.BackendClasses
             HtmlGenericControl div = new HtmlGenericControl("div");
             HtmlImage img = new HtmlImage();
 
-            HtmlGenericControl textDiv = textExtractor.getPageText(pageNum, document);
+            HtmlGenericControl textDiv = textExtractor.GetPageText(pageNum, document);
 
             img.Src = path;
             img.ID = "img" + pageNum;
@@ -64,19 +60,16 @@ namespace Pdf_In_Browser_1.BackendClasses
 
         public HtmlGenericControl DisplayPage(int pageNum)
         {
-
-            HtmlGenericControl div = new HtmlGenericControl("div");
+            _ = new HtmlGenericControl("div");
             PdfToImageConverter converter = new PdfToImageConverter();
-            Image pageImg = null;
-
             string imgPath = finder.GetImgFilePath(fileFromUI, pageNum);
 
             PdfDocument document = GetDocument();
 
-            pageImg = converter.pdfToImageByPage(pageNum, document);
+            Image pageImg = converter.PdfToImageByPage(pageNum, document);
             pageImg.Save(HostingEnvironment.MapPath(imgPath));
 
-            div = GetDiv(pageNum, imgPath, document);
+            HtmlGenericControl div = GetDiv(pageNum, imgPath, document);
 
             return div;
         }
@@ -98,22 +91,20 @@ namespace Pdf_In_Browser_1.BackendClasses
             return div;
         }
 
-        public void saveImage(int pageNum)
+        public void SaveImage(int pageNum)
         {
-            HtmlGenericControl div = new HtmlGenericControl("div");
+            _ = new HtmlGenericControl("div");
             PdfToImageConverter converter = new PdfToImageConverter();
-            Image pageImg = null;
-
             string imgPath = finder.GetImgFilePath(fileFromUI, pageNum);
 
             PdfDocument document = GetDocument();
 
-            pageImg = converter.pdfToImageByPage(pageNum, document);
+            Image pageImg = converter.PdfToImageByPage(pageNum, document);
             pageImg.Save(HostingEnvironment.MapPath(imgPath));
         }
 
 
-        public void saveFirstImages()
+        public void SaveFirstImages()
         {
             PdfDocument document = GetDocument();
             PdfPageCollection pages = document.Pages;
@@ -122,11 +113,11 @@ namespace Pdf_In_Browser_1.BackendClasses
 
             for (int pageNum = 0; pageNum < 2; pageNum++)
             {
-                saveImage(pageNum);
+                SaveImage(pageNum);
             }
         }
 
-        public void saveAllImages()
+        public void SaveAllImages()
         {
             PdfDocument document = GetDocument();
             PdfPageCollection pages = document.Pages;
@@ -135,11 +126,11 @@ namespace Pdf_In_Browser_1.BackendClasses
 
             for (int pageNum = 2; pageNum < pageCount; pageNum++)
             {
-                saveImage(pageNum);
+                SaveImage(pageNum);
             }
         }
 
-        public void saveAllText()
+        public void SaveAllText()
         {
             PdfDocument document = GetDocument();
             PdfPageCollection pages = document.Pages;

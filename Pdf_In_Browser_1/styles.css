@@ -44,7 +44,8 @@ div, p {
 }
 
 .pageDiv{
-    float: left;
+    position: relative;
+    overflow: hidden;
 }
 
 #MainContent_customContainerL{
@@ -83,4 +84,18 @@ div, p {
     width: 50%;
     margin-top: 1%;
     margin-right: 0.5%;
+}
+
+#errorMsgDiv {
+    background-color: grey;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+    border-radius: 25px;
+    display: none;
+    margin-left: 40%;
+    width: 20%;
+    height: 10%;
+    position: fixed;
+    z-index: 1000;
 }

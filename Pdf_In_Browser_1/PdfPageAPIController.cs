@@ -40,7 +40,7 @@ namespace Pdf_In_Browser_1
             PdfDocument document = pageController.GetDocument();
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            String[,] textData = extractor.getRawText(Convert.ToInt32(pageNum), document);
+            String[,] textData = extractor.GetRawText(Convert.ToInt32(pageNum), document);
 
             PdfPageImage page = new PdfPageImage();
             page.imgPath = Url.Content("~/TestImages/" + pageNum + ".png");
@@ -58,13 +58,13 @@ namespace Pdf_In_Browser_1
             {
                 filename = filename.Substring(0, filename.Length - 2);
                 MainController pageController = new MainController(filename);
-                pageController.saveFirstImages();
+                pageController.SaveFirstImages();
             }
             else if(filename.EndsWith("a"))
             {
                 filename = filename.Substring(0, filename.Length - 2);
                 MainController pageController = new MainController(filename);
-                pageController.saveAllImages();
+                pageController.SaveAllImages();
             }
         }
 
