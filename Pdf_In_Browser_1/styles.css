@@ -76,7 +76,6 @@ div, p {
     position: absolute;
     width: 100%;
     display: flex;
-    position: relative;
     top: 50px;
 }
 
@@ -85,13 +84,6 @@ div, p {
     width: 50%;
     margin-top: 1%;
     margin-left: 25%;
-}
-
-.rightImageContainer {
-    position: relative;
-    width: 50%;
-    margin-top: 1%;
-    margin-right: 0.5%;
 }
 
 #errorMsgDiv {
