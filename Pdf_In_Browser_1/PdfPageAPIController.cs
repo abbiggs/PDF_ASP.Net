@@ -15,18 +15,13 @@ namespace Pdf_In_Browser_1
     public class PdfPageAPIController : ApiController
     {
 
-        //public String Get(String pageNum)
-        //{
-        //    String imagePath = Url.Content("~/TestImages/" + pageNum + ".png");
-        //    return imagePath;
-        //}
-
         public PdfPageImage Get(String filename)
         {
             String pageNum = "";
             String actualFile = "";
 
             Char[] fileAsArr = filename.ToCharArray();
+           
             for(int i = 0; i < fileAsArr.Length; i++)
             {
                 if(fileAsArr[i].ToString() == "_"){
@@ -66,48 +61,6 @@ namespace Pdf_In_Browser_1
                 MainController pageController = new MainController(filename);
                 pageController.SaveAllImages();
             }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // GET api/<controller>/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST api/<controller>
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }

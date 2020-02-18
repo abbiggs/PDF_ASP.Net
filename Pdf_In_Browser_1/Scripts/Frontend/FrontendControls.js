@@ -1,4 +1,5 @@
 ﻿var errorMsgDiv = document.getElementById("errorMsgDiv");
+var children = null;
 
 //#region scrollEvents
 
@@ -19,11 +20,18 @@ $(window).scroll(function () {
         return false;
     }
     var parentElement = document.getElementById("MainContent_customViewerL");
-    var childCount = parentElement.children.length;
+    if (children == null) {
+        var childCount = parentElement.children.length;
+    } else {
+        childCount = children;
+    }
+    
     var childElement = parentElement.children.item(childCount - 1);
+
     if (elementScrolled(childElement) && childElement != prevChild && childCount < pageTotal) {
 
         prevChild = childElement;
+        children = null;
         loadNextPage();
 
     }
@@ -122,7 +130,6 @@ function GetPage(pageNum) {
             showPage(response, pageNum);
         },
         failure: function (response) {
-            alert("failure");
             GetPage(pageNum);
         }
     });
@@ -181,7 +188,14 @@ function GetPageOutOfSync(pageNum) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
+            children = pageNum + 1;
             showPageOutOfSync(response, pageNum);
+            
+            if (pageNum + 1 != getPdfPageTotal()) {
+                children = pageNum + 2;
+                GetPage(pageNum + 1);
+                
+            }
         },
         failure: function (response) {
             alert("failure");
@@ -224,7 +238,7 @@ function showPageOutOfSync(data, pageNum) {
     //document.getElementById("MainContent_customViewerL").insertBefore(newDiv, targetDiv);
     document.getElementById("MainContent_customViewerL").appendChild(newDiv);
     document.getElementById("page" + pageNum).scrollIntoView(true);
-    
+
     //lockScrollPosition();
 
     loadIntermediaryPages(pageNum, totalPages, targetNum);
