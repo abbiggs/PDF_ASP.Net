@@ -111,10 +111,20 @@ namespace Pdf_In_Browser_1.BackendClasses
 
             pageCount = pages.Count;
 
-            for (int pageNum = 0; pageNum < 2; pageNum++)
+            try
             {
-                SaveImage(pageNum);
+                for (int pageNum = 0; pageNum < 2; pageNum++)
+                {
+                    if (pageNum < pages.Count)
+                    {
+                        SaveImage(pageNum);
+                    }
+                }
+            }catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
+            
         }
 
         public void SaveAllImages()
@@ -123,10 +133,16 @@ namespace Pdf_In_Browser_1.BackendClasses
             PdfPageCollection pages = document.Pages;
 
             pageCount = pages.Count;
-
-            for (int pageNum = 2; pageNum < pageCount; pageNum++)
+            if(pageCount < 2)
             {
-                SaveImage(pageNum);
+                return;
+            }
+            else
+            {
+                for (int pageNum = 2; pageNum < pageCount; pageNum++)
+                {
+                    SaveImage(pageNum);
+                }
             }
         }
 

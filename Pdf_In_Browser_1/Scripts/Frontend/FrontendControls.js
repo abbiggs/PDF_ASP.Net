@@ -15,6 +15,9 @@ $(window).scroll(function () {
     }
 
     var pageTotal = getPdfPageTotal();
+    if (pageTotal < 2) {
+        return false;
+    }
     var parentElement = document.getElementById("MainContent_customViewerL");
     var childCount = parentElement.children.length;
     var childElement = parentElement.children.item(childCount - 1);
@@ -44,7 +47,12 @@ function jumpToPage(event) {
                     page.scrollIntoView()
                 } else if (page == null) {
                     var totalPages = document.getElementById("MainContent_customViewerL").children.length;
-                    loadPageOutOfSync(actualPageNum, totalPages);
+                    if (pageNum == getPdfPageTotal()) {
+                        $(window).unbind("scroll");
+                        loadPageOutOfSync(actualPageNum, totalPages);
+                    } else {
+                        loadPageOutOfSync(actualPageNum, totalPages);
+                    }
                 }
 
                 return false;
@@ -54,7 +62,6 @@ function jumpToPage(event) {
                 alert("Page Number Out Of Bounds.")
                 return false;
             }
-
 
         } catch (error) {
 
@@ -91,7 +98,7 @@ function loadFirstPages() {
             showPage(response, pageNum)
 
             pageNum += 1;
-            if (pageNum < 2) {
+            if (pageNum < 2 && pageNum < getPdfPageTotal()) {
                 GetPage(pageNum)
             }
         },
@@ -174,7 +181,6 @@ function GetPageOutOfSync(pageNum) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-
             showPageOutOfSync(response, pageNum);
         },
         failure: function (response) {
@@ -217,8 +223,8 @@ function showPageOutOfSync(data, pageNum) {
 
     //document.getElementById("MainContent_customViewerL").insertBefore(newDiv, targetDiv);
     document.getElementById("MainContent_customViewerL").appendChild(newDiv);
-    document.getElementById("page" + pageNum).scrollIntoView();
-
+    document.getElementById("page" + pageNum).scrollIntoView(true);
+    
     //lockScrollPosition();
 
     loadIntermediaryPages(pageNum, totalPages, targetNum);
