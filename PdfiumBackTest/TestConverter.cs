@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.Drawing;
 using System.Web.UI.HtmlControls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pdf_In_Browser_1;
@@ -8,7 +6,8 @@ using Pdf_In_Browser_1.BackendClasses;
 using Pdf_In_Browser_1.TextExtraction;
 using PDFiumSharp;
 
-namespace PdfiumBackTest {
+namespace PdfiumBackTest
+{
 
     [TestClass]
     public class TestConverter {

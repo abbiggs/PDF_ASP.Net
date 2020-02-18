@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using System.Web.Http;
-using PDFiumSharp;
 using System.IO;
-using System.Drawing;
-using System.Collections.Generic;
 using Pdf_In_Browser_1.BackendClasses;
 
 namespace Pdf_In_Browser_1
