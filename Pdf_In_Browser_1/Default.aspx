@@ -6,14 +6,14 @@
     <div id="errorMsgDiv">Failed To Load Page</div>
 
     <div class="actionButtonsDiv" runat="server">
-        <asp:Button class="actionButton" ID="btnLoadPdf" runat="server" OnClick="btnLoadPdf_Click" Text="Load PDF" />
+        <asp:Button CSSClass="actionButton" ID="btnLoadPdf" runat="server" OnClick="btnLoadPdf_Click" Text="Load PDF" />
         <%-- %> <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button> --%>
-        <asp:FileUpload class="actionButton" ID="FileUpload1" accept=".pdf" runat="server" />
+        <asp:FileUpload CSSClass="actionButton" ID="FileUpload1" runat="server" AllowMultiple="true" />
         <%-- <asp:TextBox class="manualPageInput" ID="pageNum" runat="server" OnClick="return false;"></asp:TextBox> --%>
         <button class="actionButton" id="btnPageUp" onclick="pageUp()">▲</button>
         <button class="actionButton" id="btnPageDown" onclick="pageDown()">▼</button>
         <input type="text" class="manualPageInput" name="pageNum" id="manualPageInput" onkeydown="return jumpToPage(event)"/> 
-        <asp:Label class="pageCount" ID="pageCount" runat="server" Text=""></asp:Label>
+        <asp:Label CSSClass="pageCount" ID="pageCount" runat="server" Text=""></asp:Label>
     </div>
 
     <div class="mainContainer" id="customContainer" runat="server">
