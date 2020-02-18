@@ -40,7 +40,8 @@ namespace Pdf_In_Browser_1.TextExtraction
                     botPos = GetModPos(bottom, page.Height);
                     topPos = GetModPos(top, page.Height);
 
-                    fontSize = (rightPos - leftPos) / text.Length;
+                    //fontSize = (rightPos - leftPos) / text.Length;
+                    fontSize = PDFium.FPDFText_GetFontSize(pageText, count);
 
                     p = GetP(leftPos, botPos, fontSize, text);
                 }
