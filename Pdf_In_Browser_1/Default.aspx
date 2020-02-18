@@ -23,6 +23,7 @@
     </div>
     
     <script src="Scripts/Frontend/FrontendControls.js"></script>
+    <script src="Scripts/Frontend/AnnotationControls.js"></script>
     
 
     </asp:Content>

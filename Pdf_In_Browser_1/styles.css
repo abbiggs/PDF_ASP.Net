@@ -99,3 +99,10 @@ div, p {
     position: fixed;
     z-index: 1000;
 }
+
+.selectedText {
+    background-color: #35ccb8;
+    color: white;
+    z-index: 3;
+    position: absolute;
+}

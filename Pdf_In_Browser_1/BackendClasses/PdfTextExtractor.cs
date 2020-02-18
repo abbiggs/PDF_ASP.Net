@@ -67,7 +67,7 @@ namespace Pdf_In_Browser_1.TextExtraction
 
             string baseStyle = "display: inline; position: absolute; z-index: 2; color: red; opacity: 0.5;";
 
-            p.InnerHtml = text; //Width Mod: 0.949987      Height Mod: 0.9959378 - 1.0040787      Maybe center point is different on docs??
+            p.InnerHtml = text;                           //Width Mod: 0.949987      Height Mod: 0.9959378 - 1.0040787      Maybe center point is different on docs??
             p.Attributes["style"] = baseStyle + " left: " + (leftPos * 0.949987).ToString() + "%; bottom: " + botPos.ToString() + "%; font-size: " + fontSize.ToString() + "vw;";
 
             return p;
