@@ -305,7 +305,7 @@ function showIntermediaryPage(data, pageNum, target, totalPages) {
     }
 
     document.getElementById("MainContent_customViewerL").insertBefore(newDiv, target);
-    //scrollAnchor.scrollIntoView(true);
+    scrollAnchor.scrollIntoView(true);
     loadIntermediaryPages(pageNum, totalPages, pageNum);
 }
 
