@@ -1,4 +1,5 @@
 ﻿var errorMsgDiv = document.getElementById("errorMsgDiv");
+var scrollAnchor = null;
 var children = null;
 
 //#region scrollEvents
@@ -237,10 +238,11 @@ function showPageOutOfSync(data, pageNum) {
 
     //document.getElementById("MainContent_customViewerL").insertBefore(newDiv, targetDiv);
     document.getElementById("MainContent_customViewerL").appendChild(newDiv);
-    document.getElementById("page" + pageNum).scrollIntoView(true);
+    //document.getElementById("page" + pageNum).scrollIntoView(true);
 
     //lockScrollPosition();
-
+    scrollAnchor = newDiv;
+    scrollAnchor.scrollIntoView(true);
     loadIntermediaryPages(pageNum, totalPages, targetNum);
 }
 
@@ -303,7 +305,7 @@ function showIntermediaryPage(data, pageNum, target, totalPages) {
     }
 
     document.getElementById("MainContent_customViewerL").insertBefore(newDiv, target);
-
+    //scrollAnchor.scrollIntoView(true);
     loadIntermediaryPages(pageNum, totalPages, pageNum);
 }
 
