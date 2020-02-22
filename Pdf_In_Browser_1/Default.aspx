@@ -6,7 +6,7 @@
     <div id="errorMsgDiv">Failed To Load Page</div>
 
     <div class="actionButtonsDiv" runat="server">
-        <asp:Button CSSClass="actionButton" ID="btnLoadPdf" runat="server" OnClick="btnLoadPdf_Click" Text="Load PDF" />
+        <asp:Button CSSClass="actionButton" ID="btnLoadPdf" runat="server" OnClick="BtnLoadPdf_Click" Text="Load PDF" />
         <%-- %> <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button> --%>
         <asp:FileUpload CSSClass="actionButton" ID="FileUpload1" runat="server" AllowMultiple="true" />
         <%-- <asp:TextBox class="manualPageInput" ID="pageNum" runat="server" OnClick="return false;"></asp:TextBox> --%>

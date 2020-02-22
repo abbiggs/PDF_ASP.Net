@@ -30,7 +30,7 @@ namespace Pdf_In_Browser_1
         }
 
         [Obsolete]
-        protected void btnLoadPdf_Click(object sender, EventArgs e)
+        protected void BtnLoadPdf_Click(object sender, EventArgs e)
         {
 
             //Deletes the contents of the TestImages Folder when LoadPDF button is clicked

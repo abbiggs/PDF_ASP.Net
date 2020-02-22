@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web;
-using System.Web.UI.HtmlControls;
 using PDFiumSharp;
 using Pdf_In_Browser_1.BackendClasses;
 using Pdf_In_Browser_1.TextExtraction;
@@ -37,9 +31,11 @@ namespace Pdf_In_Browser_1
 
             String[,] textData = extractor.GetRawText(Convert.ToInt32(pageNum), document);
 
-            PdfPageImage page = new PdfPageImage();
-            page.imgPath = Url.Content("~/TestImages/" + pageNum + ".png");
-            page.textData = textData;
+            PdfPageImage page = new PdfPageImage
+            {
+                imgPath = Url.Content("~/TestImages/" + pageNum + ".png"),
+                textData = textData
+            };
 
             return page;
         }
