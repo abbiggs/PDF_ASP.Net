@@ -10,8 +10,6 @@
         <%-- %> <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button> --%>
         <asp:FileUpload CSSClass="actionButton" ID="FileUpload1" runat="server" AllowMultiple="true" />
         <%-- <asp:TextBox class="manualPageInput" ID="pageNum" runat="server" OnClick="return false;"></asp:TextBox> --%>
-        <button class="actionButton" id="btnPageUp" onclick="pageUp()">▲</button>
-        <button class="actionButton" id="btnPageDown" onclick="pageDown()">▼</button>
         <input type="text" class="manualPageInput" name="pageNum" id="manualPageInput" onkeydown="return jumpToPage(event)"/> 
         <asp:Label CSSClass="pageCount" ID="pageCount" runat="server" Text=""></asp:Label>
     </div>

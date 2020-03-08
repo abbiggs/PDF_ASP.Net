@@ -138,35 +138,11 @@ function GetPage(pageNum) {
 }
 
 //Passed 'response' data from API call function GetPage(pageNum) as parameter 'data'
-//Uses 'data' to extract image path and text data, then displays the page on the screen
+//Calls createNewPageDiv, which returns a new div, containing the page image, and 
+//Hiden text for the given pageNum.
 function showPage(data, pageNum) {
-    let newDiv = document.createElement("div");
-    let newImg = document.createElement("img");
-    newImg.src = data.imgPath;
-    newImg.id = "page" + pageNum;
-    newDiv.appendChild(newImg);
-    newDiv.className = "pageDiv";
-    newDiv.id = "div" + pageNum;
-
-    //Occurs when image path is invalid (couldn't load image)
-    newImg.onerror = function () {
-        setTimeout(function () {
-            errorMsgDiv.style.display = "block";
-        }, 1);
-        return false;
-    }
-
-    let textData = data.textData;
-
-    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
-    //Extracted elements added to newDiv
-    for (var i = 0; i < textData[0].length; i++) {
-        let newP = document.createElement("p");
-        newP.innerHTML = textData[0][i];
-        newP.style = textData[1][i];
-        newDiv.appendChild(newP);
-    }
-
+    
+    let newDiv = createNewPageDiv(data, pageNum);
     document.getElementById("MainContent_customViewerL").appendChild(newDiv);
 
 }
@@ -386,12 +362,32 @@ function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function pageUp() {
-    alert("!" + getFileName() + "!");
-    return false;
+//Returns a new page image as an html img given an image path and page number.
+function createNewPageImage(path, pageNum) {
+    let newImg = document.createElement("img");
+    newImg.src = path;
+    newImg.id = "page" + pageNum;
+    return newImg;
 }
 
-function pageDown() {
-    return false;
+//Returns a new div containing a page image and hidden text for the given pageNum.
+function createNewPageDiv(data, pageNum) {
+    let newDiv = document.createElement("div");
+    newDiv.appendChild(createNewPageImage(data.imgPath, pageNum));
+    newDiv.className = "pageDiv";
+    newDiv.id = "div" + pageNum;
+
+    let textData = data.textData;
+
+    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
+    //Extracted elements added to newDiv
+    for (var i = 0; i < textData[0].length; i++) {
+        let newP = document.createElement("p");
+        newP.innerHTML = textData[0][i];
+        newP.style = textData[1][i];
+        newDiv.appendChild(newP);
+    }
+    return newDiv;
 }
+
 //#endregion
