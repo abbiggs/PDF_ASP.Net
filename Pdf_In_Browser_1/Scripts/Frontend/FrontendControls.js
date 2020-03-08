@@ -85,6 +85,7 @@ function jumpToPage(event) {
 //#region asyncPageLoading
 //API call to load the next available page
 function loadNextPage() {
+
     var pageCount = document.getElementById("MainContent_customViewerL").children.length;
     GetPage(pageCount);
 
@@ -181,47 +182,23 @@ function GetPageOutOfSync(pageNum) {
     });
 }
 
+//Shows pages that were jumped to before they were loaded on the screen.
 function showPageOutOfSync(data, pageNum) {
-    let newDiv = document.createElement("div");
-    let newImg = document.createElement("img");
-    newImg.src = data.imgPath;
-    newImg.id = "page" + pageNum;
-    newDiv.appendChild(newImg);
-    newDiv.className = "pageDiv";
-    newDiv.id = "div" + pageNum;
-
-    //Occurs when image path is invalid (couldn't load image)
-    newImg.onerror = function () {
-        setTimeout(function () {
-            errorMsgDiv.style.display = "block";
-        }, 1);
-        return false;
-    }
-
-    let textData = data.textData;
-
-    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
-    //Extracted elements added to newDiv
-    for (var i = 0; i < textData[0].length; i++) {
-        let newP = document.createElement("p");
-        newP.innerHTML = textData[0][i];
-        newP.style = textData[1][i];
-        newDiv.appendChild(newP);
-    }
+   
+    let newDiv = createNewPageDiv(data, pageNum);
 
     let totalPages = document.getElementById("MainContent_customViewerL").children.length;
     let targetNum = pageNum;
 
-    //document.getElementById("MainContent_customViewerL").insertBefore(newDiv, targetDiv);
     document.getElementById("MainContent_customViewerL").appendChild(newDiv);
-    //document.getElementById("page" + pageNum).scrollIntoView(true);
 
-    //lockScrollPosition();
     scrollAnchor = newDiv;
     scrollAnchor.scrollIntoView(true);
     loadIntermediaryPages(pageNum, totalPages, targetNum);
 }
 
+//Begins recursive calls to load all intermediary pages between the last loaded page
+//And the page that was jumped to out of sync.
 function loadIntermediaryPages(actualPageNum, totalPages, targetNum) {
 
     let pageNum = actualPageNum - 1;
@@ -252,33 +229,11 @@ function loadIntermediaryPages(actualPageNum, totalPages, targetNum) {
     return false;
 }
 
+//Shows the intermediary pages in between the last loaded page and the page that was
+//Jumped to out of sync.
 function showIntermediaryPage(data, pageNum, target, totalPages) {
-    let newDiv = document.createElement("div");
-    let newImg = document.createElement("img");
-    newImg.src = data.imgPath;
-    newImg.id = "page" + pageNum;
-    newDiv.appendChild(newImg);
-    newDiv.className = "pageDiv";
-    newDiv.id = "div" + pageNum;
-
-    //Occurs when image path is invalid (couldn't load image)
-    newImg.onerror = function () {
-        setTimeout(function () {
-            errorMsgDiv.style.display = "block";
-        }, 1);
-        return false;
-    }
-
-    let textData = data.textData;
-
-    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
-    //Extracted elements added to newDiv
-    for (var i = 0; i < textData[0].length; i++) {
-        let newP = document.createElement("p");
-        newP.innerHTML = textData[0][i];
-        newP.style = textData[1][i];
-        newDiv.appendChild(newP);
-    }
+    
+    let newDiv = createNewPageDiv(data, pageNum);
 
     document.getElementById("MainContent_customViewerL").insertBefore(newDiv, target);
     scrollAnchor.scrollIntoView(true);
@@ -322,6 +277,36 @@ function saveAllPages() {
 }
 //#endregion
 
+//#region "pageCreation"
+//Returns a new page image as an html img given an image path and page number.
+function createNewPageImage(path, pageNum) {
+    let newImg = document.createElement("img");
+    newImg.src = path;
+    newImg.id = "page" + pageNum;
+    return newImg;
+}
+
+//Returns a new div containing a page image and hidden text for the given pageNum.
+function createNewPageDiv(data, pageNum) {
+    let newDiv = document.createElement("div");
+    newDiv.appendChild(createNewPageImage(data.imgPath, pageNum));
+    newDiv.className = "pageDiv";
+    newDiv.id = "div" + pageNum;
+
+    let textData = data.textData;
+
+    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
+    //Extracted elements added to newDiv
+    for (var i = 0; i < textData[0].length; i++) {
+        let newP = document.createElement("p");
+        newP.innerHTML = textData[0][i];
+        newP.style = textData[1][i];
+        newDiv.appendChild(newP);
+    }
+    return newDiv;
+}
+//#endregion
+
 //#region misc
 //Pulls the total number of pages from the page count label
 function getPdfPageTotal() {
@@ -360,34 +345,6 @@ function lockScrollPosition() {
 
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
-//Returns a new page image as an html img given an image path and page number.
-function createNewPageImage(path, pageNum) {
-    let newImg = document.createElement("img");
-    newImg.src = path;
-    newImg.id = "page" + pageNum;
-    return newImg;
-}
-
-//Returns a new div containing a page image and hidden text for the given pageNum.
-function createNewPageDiv(data, pageNum) {
-    let newDiv = document.createElement("div");
-    newDiv.appendChild(createNewPageImage(data.imgPath, pageNum));
-    newDiv.className = "pageDiv";
-    newDiv.id = "div" + pageNum;
-
-    let textData = data.textData;
-
-    //Iterates 2d array textData. Extracts each paragraph element and its corresponding styles
-    //Extracted elements added to newDiv
-    for (var i = 0; i < textData[0].length; i++) {
-        let newP = document.createElement("p");
-        newP.innerHTML = textData[0][i];
-        newP.style = textData[1][i];
-        newDiv.appendChild(newP);
-    }
-    return newDiv;
 }
 
 //#endregion
