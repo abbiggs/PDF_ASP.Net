@@ -1,23 +1,27 @@
 ﻿var redacting = false;
 var container = document.getElementsByClassName("leftImageContainer");
 
-activateRedaction() {
+function activateRedaction() {
 
     if (redacting != true) {
 
         redacting = true;
         container.addEventListener("click", setPosition, false);
     }
+
+    return false;
 }
 
-setPosition(e) {
+function setPosition(e) {
     var xPos = e.clientX;
     var yPos = e.clientY;
 
     addElement(xPos, yPos);
+
+    return false;
 }
 
-addElement(x, y) {
+function addElement(x, y) {
     var redaction = document.createElement("span");
 
     redaction.setAttribute("class", "redaction");
@@ -25,4 +29,6 @@ addElement(x, y) {
     redaction.style.left = xPos;
 
     container.appendChild(redaction);
+
+    return false;
 }

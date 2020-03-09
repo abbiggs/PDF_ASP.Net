@@ -99,3 +99,12 @@ div, p {
     position: fixed;
     z-index: 1000;
 }
+
+.redaction {
+    background-color: #2c2c3a;
+    color: #2c2c3a;
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+}
