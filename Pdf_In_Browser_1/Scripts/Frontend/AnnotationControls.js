@@ -1,6 +1,8 @@
 ﻿var redacting = false;
 var container = document.getElementsByClassName("leftImageContainer");
 
+//container.addEventListener("click", setPosition, false);
+
 function activateRedaction() {
 
     if (redacting != true) {
