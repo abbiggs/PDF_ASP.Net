@@ -26,7 +26,7 @@ $(window).scroll(function () {
     } else {
         childCount = children;
     }
-    
+
     var childElement = parentElement.children.item(childCount - 1);
 
     if (elementScrolled(childElement) && childElement != prevChild && childCount < pageTotal) {
@@ -142,7 +142,7 @@ function GetPage(pageNum) {
 //Calls createNewPageDiv, which returns a new div, containing the page image, and 
 //Hiden text for the given pageNum.
 function showPage(data, pageNum) {
-    
+
     let newDiv = createNewPageDiv(data, pageNum);
     document.getElementById("MainContent_customViewerL").appendChild(newDiv);
 
@@ -168,11 +168,11 @@ function GetPageOutOfSync(pageNum) {
         success: function (response) {
             children = pageNum + 1;
             showPageOutOfSync(response, pageNum);
-            
+
             if (pageNum + 1 != getPdfPageTotal()) {
                 children = pageNum + 2;
                 GetPage(pageNum + 1);
-                
+
             }
         },
         failure: function (response) {
@@ -184,7 +184,7 @@ function GetPageOutOfSync(pageNum) {
 
 //Shows pages that were jumped to before they were loaded on the screen.
 function showPageOutOfSync(data, pageNum) {
-   
+
     let newDiv = createNewPageDiv(data, pageNum);
 
     let totalPages = document.getElementById("MainContent_customViewerL").children.length;
@@ -232,7 +232,7 @@ function loadIntermediaryPages(actualPageNum, totalPages, targetNum) {
 //Shows the intermediary pages in between the last loaded page and the page that was
 //Jumped to out of sync.
 function showIntermediaryPage(data, pageNum, target, totalPages) {
-    
+
     let newDiv = createNewPageDiv(data, pageNum);
 
     document.getElementById("MainContent_customViewerL").insertBefore(newDiv, target);

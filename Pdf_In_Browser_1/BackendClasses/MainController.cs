@@ -19,6 +19,18 @@ namespace Pdf_In_Browser_1.BackendClasses
             fileFromUI = UIinfo;
         }
 
+        public double GetTotalPageHeight(PdfDocument document)
+        {
+            PdfPageCollection pages = document.Pages;
+            double height = 0;
+            for(int i = 0; i < pages.Count; i++)
+            {
+                height += pages[i].Height;
+            }
+            System.Diagnostics.Debug.WriteLine(height.ToString());
+            return height;
+        }
+
         public HtmlGenericControl GetDiv(int pageNum, string path, PdfDocument document)
         {
             PdfTextExtractor textExtractor = new PdfTextExtractor();
@@ -124,7 +136,6 @@ namespace Pdf_In_Browser_1.BackendClasses
             {
                 System.Diagnostics.Debug.WriteLine(e.ToString());
             }
-            
         }
 
         public void SaveAllImages()
