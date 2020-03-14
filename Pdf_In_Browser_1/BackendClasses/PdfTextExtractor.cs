@@ -75,51 +75,62 @@ namespace Pdf_In_Browser_1.TextExtraction
 
         public String[,] GetRawText(int pageNum, PdfDocument document)
         {
-            PdfPage page = document.Pages[pageNum];
-            HtmlGenericControl div = new HtmlGenericControl("div");
+            String[,] textData = null;
 
-            var pageText = PDFium.FPDFText_LoadPage(page.Handle);
-            var charNum = PDFium.FPDFText_CountChars(pageText);
-            var rectNum = PDFium.FPDFText_CountRects(pageText, 0, charNum);
-
-            div.ID = "pageText" + pageNum;
-
-            String[,] textData = new string[2, rectNum];
-
-            for (int count = 0; count < rectNum; count++)
+            try
             {
-                HtmlGenericControl p = new HtmlGenericControl("p");
+                PdfPage page = document.Pages[pageNum];
+                HtmlGenericControl div = new HtmlGenericControl("div");
 
-                string text;
+                var pageText = PDFium.FPDFText_LoadPage(page.Handle);
+                var charNum = PDFium.FPDFText_CountChars(pageText);
+                var rectNum = PDFium.FPDFText_CountRects(pageText, 0, charNum);
 
-                double leftPos;
-                double rightPos;
-                double botPos;
-                double topPos;
-                double fontSize;
+                div.ID = "pageText" + pageNum;
 
-                try
+                textData = new string[2, rectNum];
+
+                for (int count = 0; count < rectNum; count++)
                 {
-                    PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
-                    text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
+                    HtmlGenericControl p = new HtmlGenericControl("p");
 
-                    leftPos = GetModPos(left, page.Width);
-                    rightPos = GetModPos(right, page.Width);
-                    botPos = GetModPos(bottom, page.Height);
-                    topPos = GetModPos(top, page.Height);
+                    string text;
 
-                    fontSize = ((rightPos - leftPos) + (topPos - botPos)) / text.Length;
+                    double leftPos;
+                    double rightPos;
+                    double botPos;
+                    double topPos;
+                    double fontSize;
 
-                    p = GetP(leftPos, botPos, fontSize, text);
+                    try
+                    {
+                        PDFium.FPDFText_GetRect(pageText, count, out var left, out var top, out var right, out var bottom);
+                        text = PDFium.FPDFText_GetBoundedText(pageText, left, top, right, bottom);
+
+                        leftPos = GetModPos(left, page.Width);
+                        rightPos = GetModPos(right, page.Width);
+                        botPos = GetModPos(bottom, page.Height);
+                        topPos = GetModPos(top, page.Height);
+
+                        fontSize = ((rightPos - leftPos) + (topPos - botPos)) / text.Length;
+
+                        p = GetP(leftPos, botPos, fontSize, text);
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e);
+                    }
+
+                    textData[0, count] = p.InnerHtml;
+                    textData[1, count] = p.Attributes["style"];
                 }
-                catch (IndexOutOfRangeException e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e);
-                }
-
-                textData[0, count] = p.InnerHtml;
-                textData[1, count] = p.Attributes["style"];
             }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                return null;
+            }
+
             return textData;
         }
     }
