@@ -5,13 +5,18 @@
     
     <div id="errorMsgDiv">Failed To Load Page</div>
 
-    <div class="actionButtonsDiv" runat="server">
+    <div class="actionButtonsDiv" id="actionButtonsContainer" runat="server">
         <asp:Button CSSClass="actionButton" ID="btnLoadPdf" runat="server" OnClick="BtnLoadPdf_Click" Text="Load PDF" />
         <%-- %> <button class="actionButton" id="btnTestAPI" onclick="return loadFirstPages()">Test API</button> --%>
         <asp:FileUpload CSSClass="actionButton" ID="FileUpload1" runat="server" AllowMultiple="true" />
         <%-- <asp:TextBox class="manualPageInput" ID="pageNum" runat="server" OnClick="return false;"></asp:TextBox> --%>
         <input type="text" class="manualPageInput" name="pageNum" id="manualPageInput" onkeydown="return jumpToPage(event)"/> 
         <asp:Label CSSClass="pageCount" ID="pageCount" runat="server" Text=""></asp:Label>
+
+        <input type="button" class="actionButton" id="btnZoomIn" value="+" onclick="return zoomIn()"/>
+        <input type="button" class="actionButton" id="btnZoomOut" value="-" onclick="return zoomOut()"/>
+        
+        
     </div>
 
     <div class="mainContainer" id="customContainer" runat="server">
@@ -22,6 +27,7 @@
     
     <script src="Scripts/Frontend/FrontendControls.js"></script>
     <script src="Scripts/Frontend/AnnotationControls.js"></script>
+    <script src="Scripts/Frontend/ZoomingControls.js"></script>
     
 
     </asp:Content>
