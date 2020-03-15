@@ -9,6 +9,14 @@ namespace Pdf_In_Browser_1
     public class PdfPageAPIController : ApiController
     {
 
+        public double Get()
+        {
+
+
+
+            return 0.0;
+        }
+        
         public PdfPageImage Get(String filename)
         {
             String pageNum = "";
@@ -42,21 +50,23 @@ namespace Pdf_In_Browser_1
 
 
         [HttpPost]
-        public void Post(String filename)
+        public double Post(String filename)
         {
-
             if(filename.EndsWith("f"))
             {
                 filename = filename.Substring(0, filename.Length - 2);
                 MainController pageController = new MainController(filename);
                 pageController.SaveFirstImages();
+                return pageController.GetTotalPageHeight(pageController.GetDocument());
             }
             else if(filename.EndsWith("a"))
             {
                 filename = filename.Substring(0, filename.Length - 2);
                 MainController pageController = new MainController(filename);
                 pageController.SaveAllImages();
+                return 0.0;
             }
+            return 0.0;
         }
     }
 }

@@ -5,6 +5,7 @@ var children = null;
 //#region scrollEvents
 
 //Keeps track of the last child to have entered the view, as to not execute loadNextPage() multiple times per element.
+var lastChild = null;
 var prevChild = null;
 //Loads the next available page when the final loaded page is scrolled into view
 $(window).scroll(function () {
@@ -20,22 +21,34 @@ $(window).scroll(function () {
     if (pageTotal < 2) {
         return false;
     }
+
     var parentElement = document.getElementById("MainContent_customViewerL");
     if (children == null) {
         var childCount = parentElement.children.length;
     } else {
         childCount = children;
     }
-    
-    var childElement = parentElement.children.item(childCount - 1);
 
-    if (elementScrolled(childElement) && childElement != prevChild && childCount < pageTotal) {
+    var bottomChild = parentElement.children.item(childCount - 1);
+    var topChild = parentElement.children.item(1);
 
-        prevChild = childElement;
+    if (elementScrolled(bottomChild) && bottomChild != lastChild && childCount < pageTotal) {
+
+        lastChild = bottomChild;
         children = null;
         loadNextPage();
 
     }
+
+    if (elementScrolled(topChild) && topChild.id != "div1" && topChild != prevChild) {
+        
+        prevChild = topChild;
+        let pageNum = parseInt(topChild.id.substring(3, topChild.id.length)) - 2;
+        
+        GetPage(pageNum, "top");
+
+    }
+
 });
 
 function jumpToPage(event) {
@@ -87,7 +100,11 @@ function jumpToPage(event) {
 function loadNextPage() {
 
     var pageCount = document.getElementById("MainContent_customViewerL").children.length;
-    GetPage(pageCount);
+    let parentElement = document.getElementById("MainContent_customViewerL");
+    let lastElement = parentElement.children.item(parentElement.children.length - 1);
+    let pageNum = parseInt(lastElement.id.substring(3, lastElement.id.length)) + 1;
+    
+    GetPage(pageNum, "bottom");
 
     return false;
 }
@@ -105,15 +122,15 @@ function loadFirstPages() {
         dataType: "json",
         success: function (response) {
 
-            showPage(response, pageNum)
+            showPage(response, pageNum, "bottom");
 
             pageNum += 1;
             if (pageNum < 2 && pageNum < getPdfPageTotal()) {
-                GetPage(pageNum)
+                GetPage(pageNum, "bottom");
             }
         },
         failure: function () {
-            GetPage(pageNum)
+            GetPage(pageNum, "bottom");
         }
     });
 
@@ -121,18 +138,18 @@ function loadFirstPages() {
 }
 
 //API call that returns with a json object containing an image path, and a 2d array of text data/styles
-function GetPage(pageNum) {
+function GetPage(pageNum, location) {
     $.ajax({
         type: "GET",
         url: "api/PdfPageAPI?filename=" + pageNum + "_" + getFileName() + "",
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function (response) {
-            showPage(response, pageNum);
+        success: function(response) {
+            showPage(response, pageNum, location);
         },
         failure: function (response) {
-            GetPage(pageNum);
+            GetPage(pageNum, location);
         }
     });
     return false;
@@ -141,12 +158,34 @@ function GetPage(pageNum) {
 //Passed 'response' data from API call function GetPage(pageNum) as parameter 'data'
 //Calls createNewPageDiv, which returns a new div, containing the page image, and 
 //Hiden text for the given pageNum.
-function showPage(data, pageNum) {
-    
-    let newDiv = createNewPageDiv(data, pageNum);
-    document.getElementById("MainContent_customViewerL").appendChild(newDiv);
+function showPage(data, pageNum, location) {
 
+    let newDiv = createNewPageDiv(data, pageNum);
+    let parentElement = document.getElementById("MainContent_customViewerL");
+
+    if (location == "bottom") {
+        parentElement.appendChild(newDiv);
+    } else if (location == "top") {
+        parentElement.insertBefore(newDiv, parentElement.children.item(0));
+    }
+
+    checkTotalPagesLoaded(pageNum, location);
 }
+
+function checkTotalPagesLoaded(pageNum, location) {
+
+    let parentElement = document.getElementById("MainContent_customViewerL");
+
+    if (parentElement.children.length > 10) {
+        if (location == "bottom") {
+            parentElement.removeChild(parentElement.children.item(0));
+        }
+        if (location == "top") {
+            parentElement.removeChild(parentElement.children.item(parentElement.children.length - 1));
+        }
+    }
+}
+
 //#endregion
 
 //#region outOfSyncPageJumping
@@ -168,23 +207,22 @@ function GetPageOutOfSync(pageNum) {
         success: function (response) {
             children = pageNum + 1;
             showPageOutOfSync(response, pageNum);
-            
+
             if (pageNum + 1 != getPdfPageTotal()) {
                 children = pageNum + 2;
-                GetPage(pageNum + 1);
-                
+                GetPage(pageNum + 1, "bottom");
             }
         },
         failure: function (response) {
             alert("failure");
-            GetPage(pageNum);
+            GetPage(pageNum, "bottom");
         }
     });
 }
 
 //Shows pages that were jumped to before they were loaded on the screen.
 function showPageOutOfSync(data, pageNum) {
-   
+
     let newDiv = createNewPageDiv(data, pageNum);
 
     let totalPages = document.getElementById("MainContent_customViewerL").children.length;
@@ -232,7 +270,7 @@ function loadIntermediaryPages(actualPageNum, totalPages, targetNum) {
 //Shows the intermediary pages in between the last loaded page and the page that was
 //Jumped to out of sync.
 function showIntermediaryPage(data, pageNum, target, totalPages) {
-    
+
     let newDiv = createNewPageDiv(data, pageNum);
 
     document.getElementById("MainContent_customViewerL").insertBefore(newDiv, target);
