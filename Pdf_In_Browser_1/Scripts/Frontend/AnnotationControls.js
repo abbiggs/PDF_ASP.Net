@@ -26,10 +26,10 @@ function setPosition(e) {
 
 function addElement(x, y) {
     var redaction = document.createElement("p");
+    var style = "top: " + y + "px; left: " + x + "px;";
 
     redaction.setAttribute("class", "redaction");
-    redaction.setAttribute("style", "top: " + y + "px;");
-    redaction.setAttribute("style", "left: " + x + "px;");
+    redaction.setAttribute("style", style);
     redaction.innerHTML = "X: " + x + "  Y: " + y;
 
     document.getElementById("MainContent_customContainer").appendChild(redaction);
