@@ -28,8 +28,8 @@ function addElement(x, y) {
     var redaction = document.createElement("p");
 
     redaction.setAttribute("class", "redaction");
-    redaction.style.top = y;
-    redaction.style.left = x;
+    redaction.setAttribute("style", "top: " + y + "px;");
+    redaction.setAttribute("style", "left: " + x + "px;");
     redaction.innerHTML = "X: " + x + "  Y: " + y;
 
     document.getElementById("MainContent_customContainer").appendChild(redaction);
