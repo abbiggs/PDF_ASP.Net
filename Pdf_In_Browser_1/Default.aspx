@@ -20,7 +20,7 @@
     </div>
 
     <div class="mainContainer" id="customContainer" runat="server">
-        <div class="leftImageContainer" ID="customViewerL" runat="server">
+        <div class="leftImageContainer" id="customViewerL" runat="server">
         <%-- Dynamically generated images (even numbered pages) are placed here. --%>
         </div>
     </div>

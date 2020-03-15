@@ -1,7 +1,6 @@
 ﻿var redacting = false;
-var container = document.getElementsByClassName("leftImageContainer");
 
-document.addEventListener("click", setPosition);
+document.getElementById("MainContent_customViewerL").addEventListener("click", setPosition);
 
 function activateRedaction() {
 
@@ -15,6 +14,8 @@ function activateRedaction() {
 }
 
 function setPosition(e) {
+    e = e || window.event;
+
     var xPos = e.clientX;
     var yPos = e.clientY;
 
@@ -24,13 +25,14 @@ function setPosition(e) {
 }
 
 function addElement(x, y) {
-    var redaction = document.createElement("span");
+    var redaction = document.createElement("p");
 
     redaction.setAttribute("class", "redaction");
-    redaction.style.top = yPos;
-    redaction.style.left = xPos;
+    redaction.style.top = y;
+    redaction.style.left = x;
+    redaction.innerHTML = "X: " + x + "  Y: " + y;
 
-    container.appendChild(redaction);
+    document.getElementById("MainContent_customContainer").appendChild(redaction);
 
     return false;
 }
