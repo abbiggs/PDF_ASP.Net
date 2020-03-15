@@ -16,7 +16,7 @@
         <input type="button" class="actionButton" id="btnZoomIn" value="+" onclick="return zoomIn()"/>
         <input type="button" class="actionButton" id="btnZoomOut" value="-" onclick="return zoomOut()"/>
         
-        
+        <input type="button" class="actionButton" id="btnRedact" value="Redact" onclick="return activateRedaction()"/>
     </div>
 
     <div class="mainContainer" id="customContainer" runat="server">

@@ -1,13 +1,11 @@
 ﻿var redacting = false;
 
-document.getElementById("MainContent_customViewerL").addEventListener("click", setPosition);
-
 function activateRedaction() {
 
     if (redacting != true) {
 
         redacting = true;
-        container.addEventListener("click", setPosition);
+        document.getElementById("MainContent_customViewerL").addEventListener("click", setPosition);
     }
 
     return false;
@@ -33,6 +31,19 @@ function addElement(x, y) {
     redaction.innerHTML = "X: " + x + "  Y: " + y;
 
     document.getElementById("MainContent_customContainer").appendChild(redaction);
+
+    disableRedaction();
+
+    return false;
+}
+
+function disableRedaction() {
+
+    if (redacting == true) {
+
+        redacting = false;
+        document.getElementById("MainContent_customViewerL").removeEventListener("click", setPosition);
+    }
 
     return false;
 }
