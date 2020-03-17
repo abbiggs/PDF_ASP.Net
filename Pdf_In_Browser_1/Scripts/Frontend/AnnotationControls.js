@@ -15,7 +15,7 @@ function setPosition(e) {
     e = e || window.event;
 
     var xPos = e.clientX;
-    var yPos = e.clientY;
+    var yPos = e.clientY + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
 
     addElement(xPos, yPos);
 
@@ -28,7 +28,7 @@ function addElement(x, y) {
 
     redaction.setAttribute("class", "redaction");
     redaction.setAttribute("style", style);
-    redaction.innerHTML = "X: " + x + "  Y: " + y;
+    //redaction.innerHTML = "X: " + x + "  Y: " + y + "   Scroll: " + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
 
     document.getElementById("MainContent_customContainer").appendChild(redaction);
 
