@@ -49,12 +49,18 @@ function configuringRedaction() {
     width = Math.max(xPoints[0], xPoints[1]) - Math.min(xPoints[0], xPoints[1]);
     height = Math.max(yPoints[0], yPoints[1]) - Math.min(yPoints[0], yPoints[1]);
 
+    xPos = (xPos / document.body.scrollWidth) * 100;
+    //yPos = (yPos / document.body.scrollHeight) * 100;
+
+    width = (width / document.body.scrollWidth) * 100;
+    //height = (height / document.body.scrollHeight) * 100;
+
     addElement(xPos, yPos, width, height);
 }
 
 function addElement(x, y, width, height) {
     var redaction = document.createElement("p");
-    var style = "top: " + y + "px; left: " + x + "px; width: " + width + "px; height: " + height + "px;";
+    var style = "top: " + y + "px; left: " + x + "%; width: " + width + "%; height: " + height + "px;";
 
     redaction.setAttribute("class", "redaction");
     redaction.setAttribute("style", style);
