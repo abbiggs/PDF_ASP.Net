@@ -43,6 +43,9 @@ function configuringRedaction() {
 
     let width, height, xPos, yPos;
 
+    let screenHeight = (window.screenY || document.documentElement.scrollHeight || document.body.scrollHeight || 0);
+    //let screenHeight = window.innerHeight;
+
     xPos = Math.min(xPoints[0], xPoints[1]);
     yPos = Math.min(yPoints[0], yPoints[1]);
 
@@ -50,21 +53,21 @@ function configuringRedaction() {
     height = Math.max(yPoints[0], yPoints[1]) - Math.min(yPoints[0], yPoints[1]);
 
     xPos = (xPos / document.body.scrollWidth) * 100;
-    //yPos = (yPos / document.body.scrollHeight) * 100;
+    yPos = (yPos / screenHeight) * 100;
 
     width = (width / document.body.scrollWidth) * 100;
-    //height = (height / document.body.scrollHeight) * 100;
+    height = (height / screenHeight) * 100;
 
     addElement(xPos, yPos, width, height);
 }
 
 function addElement(x, y, width, height) {
     var redaction = document.createElement("p");
-    var style = "top: " + y + "px; left: " + x + "%; width: " + width + "%; height: " + height + "px;";
+    var style = "top: " + y + "%; left: " + x + "%; width: " + width + "%; height: " + height + "%;"; //% has bugs with Y. As you scroll down, the document grows so 20% is now bigger
 
     redaction.setAttribute("class", "redaction");
     redaction.setAttribute("style", style);
-    //redaction.innerHTML = "X: " + xPoints[0] + " | " + xPoints[1] + " Y: " + yPoints[0] + " | " + yPoints[1];
+    redaction.innerHTML = "yPos: " + y + " height: " + height + " scrollHeight: " + (window.screenY || document.documentElement.scrollHeight || document.body.scrollHeight || 0);
 
     document.getElementById("MainContent_customContainer").appendChild(redaction);
 
