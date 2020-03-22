@@ -189,6 +189,7 @@ function checkTotalPagesLoaded(pageNum, location) {
 //#endregion
 
 //#region outOfSyncPageJumping
+
 function loadPageOutOfSync(actualPageNum, totalPages) {
     let currentTotal = document.getElementById("MainContent_customViewerL").children.length;
 
