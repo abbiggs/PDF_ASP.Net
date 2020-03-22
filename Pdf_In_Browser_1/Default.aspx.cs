@@ -6,7 +6,7 @@ using Pdf_In_Browser_1.BackendClasses;
 
 namespace Pdf_In_Browser_1
 {
-    public partial class _Default : Page
+    public partial class Default : Page
     {
 
         public void AddElementsToContainer(HtmlGenericControl div)
