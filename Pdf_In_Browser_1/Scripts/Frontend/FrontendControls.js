@@ -315,7 +315,7 @@ function saveAllPages() {
 }
 //#endregion
 
-//#region "pageCreation"
+//#region pageCreation
 //Returns a new page image as an html img given an image path and page number.
 function createNewPageImage(path, pageNum) {
     let newImg = document.createElement("img");
