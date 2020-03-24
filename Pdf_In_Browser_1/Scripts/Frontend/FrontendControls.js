@@ -68,12 +68,11 @@ function jumpToPage(event) {
                 if (page != null) {
                     page.scrollIntoView()
                 } else if (page == null) {
-                    var totalPages = document.getElementById("MainContent_customViewerL").children.length;
                     if (pageNum == getPdfPageTotal()) {
                         $(window).unbind("scroll");
-                        loadPageOutOfSync(actualPageNum, totalPages);
+                        loadPageOutOfSync(actualPageNum);
                     } else {
-                        loadPageOutOfSync(actualPageNum, totalPages);
+                        loadPageOutOfSync(actualPageNum);
                     }
                 }
 
@@ -99,7 +98,6 @@ function jumpToPage(event) {
 //API call to load the next available page
 function loadNextPage() {
 
-    var pageCount = document.getElementById("MainContent_customViewerL").children.length;
     let parentElement = document.getElementById("MainContent_customViewerL");
     let lastElement = parentElement.children.item(parentElement.children.length - 1);
     let pageNum = parseInt(lastElement.id.substring(3, lastElement.id.length)) + 1;
@@ -148,7 +146,7 @@ function GetPage(pageNum, location) {
         success: function(response) {
             showPage(response, pageNum, location);
         },
-        failure: function (response) {
+        failure: function (_response) {
             GetPage(pageNum, location);
         }
     });
@@ -172,7 +170,7 @@ function showPage(data, pageNum, location) {
     checkTotalPagesLoaded(pageNum, location);
 }
 
-function checkTotalPagesLoaded(pageNum, location) {
+function checkTotalPagesLoaded(_pageNum, location) {
 
     let parentElement = document.getElementById("MainContent_customViewerL");
 
@@ -190,8 +188,7 @@ function checkTotalPagesLoaded(pageNum, location) {
 
 //#region outOfSyncPageJumping
 
-function loadPageOutOfSync(actualPageNum, totalPages) {
-    let currentTotal = document.getElementById("MainContent_customViewerL").children.length;
+function loadPageOutOfSync(actualPageNum) {
 
     GetPageOutOfSync(actualPageNum);
 
@@ -214,7 +211,7 @@ function GetPageOutOfSync(pageNum) {
                 GetPage(pageNum + 1, "bottom");
             }
         },
-        failure: function (response) {
+        failure: function (_response) {
             alert("failure");
             GetPage(pageNum, "bottom");
         }
@@ -256,7 +253,7 @@ function loadIntermediaryPages(actualPageNum, totalPages, targetNum) {
                 showIntermediaryPage(response, pageNum, target, totalPages);
 
             },
-            failure: function (response) {
+            failure: function (_response) {
                 alert("failure");
                 GetPage(pageNum);
             }
@@ -290,7 +287,7 @@ function saveFirstPages() {
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function (response) {
+        success: function (_response) {
             loadFirstPages();
             saveAllPages();
         }
@@ -307,7 +304,7 @@ function saveAllPages() {
         data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function (response) {
+        success: function (_response) {
 
         }
     });
@@ -350,10 +347,8 @@ function createNewPageDiv(data, pageNum) {
 //Pulls the total number of pages from the page count label
 function getPdfPageTotal() {
     let pageTotal = document.getElementById("MainContent_pageCount").innerText;
-    let endIndex = null;
     for (var i = 0; i < pageTotal.length; i++) {
         if (pageTotal.charAt(i) == " ") {
-            endIndex = i;
             break;
         }
     }
@@ -366,10 +361,8 @@ function getPdfPageTotal() {
 function getFileName() {
     let filename = null;
     let labelText = document.getElementById("MainContent_pageCount").innerText;
-    let startIndex = null;
     for (var i = 0; i < labelText.length; i++) {
         if (labelText.charAt(i) == " ") {
-            startIndex = i;
             break;
         }
     }

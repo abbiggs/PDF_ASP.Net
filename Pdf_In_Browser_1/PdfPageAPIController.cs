@@ -46,7 +46,7 @@ namespace Pdf_In_Browser_1
             PdfDocument document = pageController.GetDocument();
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            String[,] textData = extractor.GetRawText(Convert.ToInt32(pageNum), document);  //System.Format Exception
+            string[,] textData = extractor.GetRawText(Convert.ToInt32(pageNum), document);  //System.Format Exception
 
             PdfPageImage page = new PdfPageImage
             {
