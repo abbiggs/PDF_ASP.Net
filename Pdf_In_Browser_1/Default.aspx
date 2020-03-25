@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Pdf_In_Browser_1._Default" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Pdf_In_Browser_1.Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <link href="styles.css" rel="stylesheet" type="text/css" />
@@ -28,6 +28,7 @@
     <script src="Scripts/Frontend/FrontendControls.js"></script>
     <script src="Scripts/Frontend/AnnotationControls.js"></script>
     <script src="Scripts/Frontend/ZoomingControls.js"></script>
+    <script src="Scripts/Frontend/HighlightControls.js"></script>
     
 
     </asp:Content>

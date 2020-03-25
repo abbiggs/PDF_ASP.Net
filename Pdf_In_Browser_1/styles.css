@@ -49,6 +49,14 @@ div, p {
     width: 100%;
 }
 
+#btnZoomIn{
+    width: 2.5%;
+}
+
+#btnZoomOut{
+    width: 2.5%;
+}
+
 .pageDiv{
     position: relative;
     overflow: hidden;
@@ -58,6 +66,10 @@ div, p {
     position: absolute;
     overflow: hidden;
 }
+
+/*#maincontent_customcontainer{
+    margin-top: 10%;
+}*/
 
 .pageCount {
     color: white;

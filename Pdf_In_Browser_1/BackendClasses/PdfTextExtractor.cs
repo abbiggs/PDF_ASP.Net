@@ -75,8 +75,7 @@ namespace Pdf_In_Browser_1.TextExtraction
 
         public String[,] GetRawText(int pageNum, PdfDocument document)
         {
-            String[,] textData = null;
-
+            string[,] textData;
             try
             {
                 PdfPage page = document.Pages[pageNum];

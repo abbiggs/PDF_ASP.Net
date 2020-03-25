@@ -11,7 +11,7 @@ namespace Pdf_In_Browser_1
 {
 
 
-    public partial class _Default
+    public partial class Default
     {
 
         /// <summary>

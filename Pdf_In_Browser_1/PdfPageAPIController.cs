@@ -9,35 +9,44 @@ namespace Pdf_In_Browser_1
     public class PdfPageAPIController : ApiController
     {
 
-        public double Get()
-        {
-
-
-
-            return 0.0;
-        }
-        
         public PdfPageImage Get(String filename)
+        {
+            String[] parsedRequest = parseRequest(filename);
+            PdfPageImage page = getPage(parsedRequest[0], parsedRequest[1]);
+
+            return page;
+        }
+
+        public String[] parseRequest(String request)
         {
             String pageNum = "";
             String actualFile = "";
 
-            Char[] fileAsArr = filename.ToCharArray();
-           
-            for(int i = 0; i < fileAsArr.Length; i++)
+            Char[] fileAsArr = request.ToCharArray();
+
+            for (int i = 0; i < fileAsArr.Length; i++)
             {
-                if(fileAsArr[i].ToString() == "_"){
-                    pageNum = filename.Substring(0, i);
-                    actualFile = filename.Substring(i + 1, filename.Length - i - 1);
+                if (fileAsArr[i].ToString() == "_")
+                {
+                    pageNum = request.Substring(0, i);
+                    actualFile = request.Substring(i + 1, request.Length - i - 1);
                     break;
                 }
             }
 
-            MainController pageController = new MainController(actualFile);
+            String[] parsedRequest = new String[2];
+            parsedRequest[0] = actualFile;
+            parsedRequest[1] = pageNum;
+            return parsedRequest;
+        }
+
+        public PdfPageImage getPage(String filename, String pageNum)
+        {
+            MainController pageController = new MainController(filename);
             PdfDocument document = pageController.GetDocument();
             PdfTextExtractor extractor = new PdfTextExtractor();
 
-            String[,] textData = extractor.GetRawText(Convert.ToInt32(pageNum), document);  //System.Format Exception
+            string[,] textData = extractor.GetRawText(Convert.ToInt32(pageNum), document);  //System.Format Exception
 
             PdfPageImage page = new PdfPageImage
             {
@@ -47,7 +56,6 @@ namespace Pdf_In_Browser_1
 
             return page;
         }
-
 
         [HttpPost]
         public double Post(String filename)
