@@ -27,8 +27,6 @@
     
     <script src="Scripts/Frontend/FrontendControls.js"></script>
     <script src="Scripts/Frontend/AnnotationControls.js"></script>
-    <script src="Scripts/Frontend/ZoomingControls.js"></script>
-    <script src="Scripts/Frontend/HighlightControls.js"></script>
-    
+    <script src="Scripts/Frontend/ZoomingControls.js"></script>    
 
     </asp:Content>

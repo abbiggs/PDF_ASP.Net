@@ -319,7 +319,6 @@
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\Frontend\AnnotationControls.js" />
-    <Content Include="Scripts\Frontend\HighlightControls.js" />
     <Content Include="Scripts\Frontend\ZoomingControls.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />

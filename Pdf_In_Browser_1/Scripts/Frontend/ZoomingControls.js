@@ -9,7 +9,7 @@ function zoomIn() {
 
     zoomFactor += .1;
     
-    if (zoomFactor <= 2.5) {
+    if (zoomFactor <= 1.5) {
 
         body.css('transform', 'scale(' + zoomFactor + ')');
 
