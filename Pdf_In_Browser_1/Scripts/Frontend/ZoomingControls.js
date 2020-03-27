@@ -6,13 +6,13 @@ let toolbar = $("#MainContent_actionButtonsContainer");
 
 function zoomIn() {
     let body = $('body');
-    
+
     zoomFactor += .1;
     
-    if (zoomFactor <= 1.5) {
-        
+    if (zoomFactor <= 2.5) {
+
         body.css('transform', 'scale(' + zoomFactor + ')');
-        
+
     } else {
         zoomFactor -= 0.5;
         body.css('transform', 'scale(' + zoomFactor + ')');
@@ -44,7 +44,7 @@ function zoomOut() {
             body.css('transform', 'scale(' + zoomFactor + ')');
 
         } else {
-        
+
             return false;
         }
 
@@ -56,7 +56,7 @@ function zoomOut() {
             toolbar.css('transform', 'scale(' + toolZoom + ')');
         }
     }
-    
+
 
     return false;
-}
+} 
