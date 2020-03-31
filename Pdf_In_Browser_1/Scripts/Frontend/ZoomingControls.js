@@ -3,7 +3,6 @@ var toolZoom = 1.0;
 let customViewerL = $("#MainContent_customViewerL");
 let toolbar = $("#MainContent_actionButtonsContainer");
 
-
 function zoomIn() {
     let body = $('body');
 
